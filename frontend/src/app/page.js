@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Homes from "./Homes";
+import LandingPage from "../components/LandingPage";
 
 export default function Home() {
   return (
