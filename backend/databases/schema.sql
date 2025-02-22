@@ -1,3 +1,4 @@
+-- Relational Database Tables
 CREATE TABLE Doctors (
     DoctorID INT PRIMARY KEY AUTO_INCREMENT,  
     first_name VARCHAR(100) NOT NULL,    
@@ -14,6 +15,7 @@ CREATE TABLE Patient (
     first_name VARCHAR(100) NOT NULL,    
     last_name  VARCHAR(100) NOT NULL,         
     Age       INT CHECK (Age > 18)
+    Gender ENUM('Male', 'Female', 'Non-binary', 'Prefer Not to Say','Other') NOT NULL
 );
 
 CREATE TABLE Appointment (
@@ -58,7 +60,6 @@ CREATE TABLE Transaction (
 CREATE TABLE Chat (
     ChatID     SERIAL PRIMARY KEY,
     PatientID  INT NOT NULL,
-    DoctorID   INT NOT NULL,
     Timestamp  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Message    TEXT NOT NULL,
     AI_Response TEXT, -- Can be NULL if AI doesn’t respond
