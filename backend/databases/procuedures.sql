@@ -1,3 +1,6 @@
+USE healthcare_db;
+
+
 -- Stored Procedures
 DELIMITER //
 CREATE PROCEDURE AddDoctor(
@@ -96,7 +99,7 @@ CREATE PROCEDURE SaveMessage(
     IN p_AI_Response TEXT
 )
 BEGIN
-    INSERT INTO Chat (PatientID, Timestamp, Message, AI_Response)
-    VALUES (p_PatientID, NOW(), p_Message, p_AI_Response);
+    INSERT INTO Chat (PatientID, DoctorID, TextedAt, Message, AI_Response)
+    VALUES (p_PatientID, p_DoctorID, NOW(), p_Message, p_AI_Response);
 END //
 DELIMITER ;

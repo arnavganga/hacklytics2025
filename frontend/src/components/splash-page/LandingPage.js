@@ -12,7 +12,7 @@ export default function LandingPage() {
       };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#6a11cb] to-[#2575fc] text-white">
+    <div className="min-h-screen bg-gradient-to-r from-purple-700 to-blue-500 text-white">
       <main className="container mx-auto px-6 py-24 text-center">
       <h1 className="text-4xl font-bold text-white mb-6 mt-12">Get Treatment Without Leaving Home</h1>
         <p className="text-lg text-gray-300 mb-6">
