@@ -1,15 +1,15 @@
-"use client"; // Ensure this is a client component
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation"; // Get current path
+import { usePathname } from "next/navigation";
 
 export default function Sidebar() {
     const [isOpen, setIsOpen] = useState(false);
-    const pathname = usePathname(); // Get current route
+    const pathname = usePathname();
 
     const links = [
-        { href: "/", label: "Dashboard" },
+        { href: "/dashboard/patient", label: "Dashboard" },
         { href: "/appointments", label: "Book Appointments" },
         { href: "/transactions", label: "Recent Transactions" },
         { href: "/records", label: "Your Records" },
