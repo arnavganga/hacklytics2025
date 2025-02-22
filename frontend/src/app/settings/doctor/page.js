@@ -1,17 +1,20 @@
-import SettingsLayout from "../../../components/settings/SettingsLayout";
+"use client";
+import React, { useState } from "react";
 import DoctorSettings from "../../../components/settings/DoctorSettings";
-import React from "react";
 import Sidebar from "@/components/Sidebar";
 
 export default function DoctorSettingsPage() {
-    return (
-        <div className="flex">
-            <div className="flex-1 p-6">
-                <DoctorSettings />
-            </div>
-            <div className="w-1/5 min-w-[200px] right-0">
-                <Sidebar />
-            </div>
-        </div>
-    );
+  return (
+    <div className="flex">
+      {/* Sidebar */}
+      <div>
+        <Sidebar />
+      </div>
+
+      {/* Main content area */}
+      <div className={`flex-1 p-10 transition-all duration-300 justify-center`}>
+        <DoctorSettings />
+      </div>
+    </div>
+  );
 }
