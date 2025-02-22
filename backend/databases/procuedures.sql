@@ -77,15 +77,14 @@ CREATE PROCEDURE AddTransaction(
     IN p_PatientID INT,
     IN p_DoctorID INT,
     IN p_Amount DECIMAL(10,2),
-    IN p_Date DATE,
-    IN p_Time TIME
+    IN p_DateTime DATETIME
 )
 BEGIN
     IF p_Amount <= 0 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Transaction amount must be greater than 0';
     ELSE
-        INSERT INTO Transaction (PatientID, DoctorID, Amount, Date, Time)
-        VALUES (p_PatientID, p_DoctorID, p_Amount, p_Date, p_Time);
+        INSERT INTO Transaction (PatientID, DoctorID, Amount, DateSent)
+        VALUES (p_PatientID, p_DoctorID, p_Amount, p_DateTime);
     END IF;
 END //
 DELIMITER ;

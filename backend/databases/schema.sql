@@ -22,7 +22,7 @@ CREATE TABLE Appointment (
     AppointmentID SERIAL PRIMARY KEY,
     PatientID     INT NOT NULL,
     DoctorID      INT NOT NULL,
-    DateTime DATETIME NOT NULL,
+    DateBooked DATETIME NOT NULL,
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID) ON DELETE CASCADE,
     FOREIGN KEY (DoctorID) REFERENCES Doctor(DoctorID) ON DELETE CASCADE
 );
@@ -51,8 +51,7 @@ CREATE TABLE Transaction (
     PatientID     INT NOT NULL,
     DoctorID      INT NOT NULL,
     Amount        DECIMAL(10,2) NOT NULL CHECK (Amount > 0),
-    Date          DATE NOT NULL,
-    Time          TIME NOT NULL,
+    DateSent DATETIME NOT NULL,
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID) ON DELETE CASCADE,
     FOREIGN KEY (DoctorID) REFERENCES Doctor(DoctorID) ON DELETE CASCADE
 );

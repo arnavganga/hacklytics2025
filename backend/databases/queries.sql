@@ -21,7 +21,7 @@ END //
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE GetAppointmentsByDoctor(IN p_DoctorID INT)
+CREATE PROCEDURE GetAppointmentsForDoctor(IN p_DoctorID INT)
 BEGIN
     SELECT a.AppointmentID, a.DateTime, 
            p.first_name AS PatientFirstName, p.last_name AS PatientLastName 
@@ -33,7 +33,7 @@ END //
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE GetAppointmentsByPatient(IN p_PatientID INT)
+CREATE PROCEDURE GetAppointmentsForPatient(IN p_PatientID INT)
 BEGIN
     SELECT a.AppointmentID, a.DateTime, 
            d.first_name AS DoctorFirstName, d.last_name AS DoctorLastName, d.Specialization
@@ -57,7 +57,7 @@ END //
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE GetTransactionsByPatient(IN p_PatientID INT)
+CREATE PROCEDURE GetTransactionsForPatient(IN p_PatientID INT)
 BEGIN
     SELECT t.TransactionID, t.Amount, t.Date, t.Time, 
            d.first_name AS DoctorFirstName, d.last_name AS DoctorLastName
