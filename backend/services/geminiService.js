@@ -1,6 +1,11 @@
 const axios = require("axios");
 const { GEMINI_API_KEY, GEMINI_API_URL } = require("../config/config");
 
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
 async function getAIResponse(patientMessage, chatHistory) {
   console.log(GEMINI_API_URL)
   console.log(GEMINI_API_KEY)

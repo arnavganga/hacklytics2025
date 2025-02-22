@@ -1,6 +1,8 @@
-import Link from "next/link";
-import Homes from "./Homes";
-import LandingPage from "../components/LandingPage";
+import Image from "next/image";
+import LandingPage from "../components/LandingPage.js"
+import Navbar from "../components/Navbar.js"
+import About from "../components/About.js"
+import Homes from "./Homes.js"
 
 export default function Home() {
   return (
@@ -11,3 +13,4 @@ export default function Home() {
     </>
   );
 }
+

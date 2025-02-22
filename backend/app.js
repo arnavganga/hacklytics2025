@@ -1,18 +1,19 @@
 const express = require("express");
 const cors = require("cors");
-const db = require("./config/db"); // Import database connection
-const doctorRoutes = require("./routes/doctorRoutes"); // Example API routes
+const db = require("./databases/db");
+const doctorRoutes = require("./routes/doctorRoutes");
 const patientRoutes = require("./routes/patientRoutes");
 const virtualNurseRoutes = require("./routes/virtualNurseRoutes");
+const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
 
 // Middleware
-app.use(express.json()); // Parse JSON request body
-app.use(cors()); // Enable CORS for frontend communication
+app.use(express.json());
+app.use(cors());
 
 // API Routes
-app.use("/api/doctors", doctorRoutes); // Example route for doctors
+app.use("/api/doctors", doctorRoutes);
 app.use("/api/patients", patientRoutes);
 app.use("/api/virtualNurse", virtualNurseRoutes);
 
@@ -25,7 +26,7 @@ app.get("/", (req, res) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

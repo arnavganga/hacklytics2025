@@ -2,6 +2,6 @@ const express = require("express");
 const router = express.Router();
 const virtualNurseController = require("../controllers/virtualNurseController");
 
-router.post("/virtual-nurse", virtualNurseController.getAIResponse);
+router.post("/", virtualNurseController.getAIResponse);
 
 module.exports = router;
