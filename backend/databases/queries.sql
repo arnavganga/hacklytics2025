@@ -1,10 +1,12 @@
+USE healthcare_db;
+
 -- Get Procedures
 DELIMITER //
 CREATE PROCEDURE GetAllDoctors()
 BEGIN
-    SELECT * FROM Doctors as d;
-    JOIN Review as r on d.DoctorID = r.DoctorID
-    ORDER BY Rating, d.last_name, d.first_name
+    SELECT * FROM Doctors
+    JOIN Review ON Doctors.DoctorID = Review.DoctorID
+    ORDER BY Rating, last_name, first_name;
 END //
 DELIMITER ;
 
@@ -66,19 +68,19 @@ BEGIN
     FROM Transaction t
     JOIN Doctors d ON t.DoctorID = d.DoctorID
     WHERE t.PatientID = p_PatientID
-    ORDER BY t.DateSent DESC
+    ORDER BY t.DateSent DESC;
 END //
 DELIMITER ;
 
 DELIMITER //
 CREATE PROCEDURE GetPaymentsForDoctor(IN p_DoctorID INT)
 BEGIN
-    SELECT t.TransactionID, t.Amount, t.DateSent 
+    SELECT t.TransactionID, t.Amount, t.DateSent, 
            p.first_name AS PatientFirstName, p.last_name AS PatientLastName
     FROM Transaction t
     JOIN Patient p ON p.PatientID = t.PatientID
     WHERE t.DoctorID = p_DoctorID
-    ORDER BY t.DateSent DESC
+    ORDER BY t.DateSent DESC;
 END //
 DELIMITER ;
 
