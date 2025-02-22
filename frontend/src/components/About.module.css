@@ -1,0 +1,53 @@
+/* General Styles */
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(to bottom, #e6e6ff, #ffffff);
+  color: #1a1a1a;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container */
+.container {
+  max-width: 600px;
+  margin: 80px auto;
+  padding: 20px;
+}
+
+/* Heading */
+.heading {
+  font-size: 36px;
+  font-weight: 700;
+  color: #333;
+}
+
+/* Description */
+.description {
+  font-size: 18px;
+  color: #666;
+  margin-top: 10px;
+}
+
+/* Buttons */
+.buttons {
+  margin-top: 20px;
+}
+
+.button {
+  background-color: #1a1a1a;
+  color: white;
+  font-size: 18px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover, .hovered {
+  background-color: #333;
+}
+
+  

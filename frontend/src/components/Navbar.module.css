@@ -1,0 +1,31 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(63, 170, 241, 0.733);
+    color: white;
+    padding: 10px 20px;
+  }
+  
+  .left {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .btn {
+    background-color: white;
+    color: rgb(27, 27, 217);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn:hover {
+    background-color: lightblue;
+  }
