@@ -1,6 +1,11 @@
 const axios = require("axios");
 const { GEMINI_API_KEY, GEMINI_API_URL } = require("../config/config");
 
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
 async function getAIResponse(patientMessage, chatHistory) {
   const prompt = `
   You are an AI nurse conducting patient intake.
@@ -22,14 +27,18 @@ async function getAIResponse(patientMessage, chatHistory) {
   `;
 
   try {
-    const response = await axios.post(
-      `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`,
-      {
-        contents: [{ parts: [{ text: prompt }] }],
-      }
-    );
+    const response = await axios.post(GEMINI_API_URL, {
+      contents: [{ parts: [{ text: prompt }] }],
+    });
 
-    const aiResponse = response.data.candidates[0]?.content?.parts[0]?.text;
+    console.log("Gemini API Response:", response.data);
+
+    let aiResponse = response.data.candidates[0]?.content?.parts[0]?.text || "";
+    // console.log("AI Response:", aiResponse);
+
+    aiResponse = aiResponse.replace(/```json|```/g, "").trim();
+    // console.log("AI Response:", aiResponse);
+
     return JSON.parse(aiResponse);
   } catch (error) {
     console.error("Error calling Gemini API:", error);

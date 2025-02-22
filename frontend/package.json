@@ -17,6 +17,7 @@
     "framer-motion": "^12.4.7",
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/react": "^6.1.15",
+    "axios": "^1.7.9",
     "i": "^0.3.7",
     "next": "15.1.7",
     "react": "^19.0.0",

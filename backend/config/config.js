@@ -2,9 +2,8 @@ require("dotenv").config();
 
 module.exports = {
   // Gemini API Configuration
-  GEMINI_API_KEY: process.env.GEMINI_API_KEY,
-  GEMINI_API_URL:
-    "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent",
+  GEMINI_API_KEY: process.env.GEMINI_API_KEY, // Sensitive information should come from .env
+  GEMINI_API_URL: `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
 
   // Database Configuration
   DB_HOST: process.env.DB_HOST || "localhost", // Default value can be set
