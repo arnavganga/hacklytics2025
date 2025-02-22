@@ -1,7 +1,7 @@
 import Image from "next/image";
-import LandingPage from "./components/LandingPage.js"
-import Navbar from "./components/Navbar.js"
-import About from "./components/About.js"
+import LandingPage from "../components/LandingPage.js"
+import Navbar from "../components/Navbar.js"
+import About from "../components/About.js"
 import Homes from "./Homes.js"
 
 export default function Home() {
