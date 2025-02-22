@@ -13,7 +13,6 @@ export default function Sidebar() {
         { href: "/appointments", label: "Book Appointments" },
         { href: "/transactions", label: "Recent Transactions" },
         { href: "/records", label: "Your Records" },
-        { href: "/settings", label: "Settings" },
     ];
 
     return (
@@ -32,25 +31,46 @@ export default function Sidebar() {
                     isOpen ? "translate-x-0" : "translate-x-full"
                 } transition-transform duration-300 ease-in-out`}
             >
-                <nav className="p-6">
-                    <h2 className="text-lg font-bold mb-4">Your Portal</h2>
-                    <ul>
-                        {links.map((link) => (
-                            <li key={link.href} className="py-2">
-                                <Link
-                                    href={link.href}
-                                    className={`block p-2 rounded ${
-                                        pathname === link.href
-                                            ? "bg-blue-700"
-                                            : "hover:bg-blue-800"
-                                    }`}
-                                >
-                                    {link.label}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                    <button className="absolute bottom-4 left-6">Logout</button>
+                <nav className="p-6 flex flex-col justify-between h-full">
+                    <div>
+                        <h2 className="text-lg font-bold mb-4">Your Portal</h2>
+                        <ul>
+                            {links.map((link) => (
+                                <li key={link.href} className="py-2">
+                                    <Link
+                                        href={link.href}
+                                        className={`block p-2 rounded ${
+                                            pathname === link.href
+                                                ? "bg-blue-700"
+                                                : "hover:bg-blue-800"
+                                        }`}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="flex flex-col py-2">
+                        <Link
+                            href="/settings/patient"
+                                className={`block p-2 rounded ${
+                                    pathname === "/settings/patient"
+                                        ? "bg-blue-700"
+                                        : "hover:bg-blue-800"
+                                }`}>
+                            Settings
+                        </Link>
+                        <Link
+                            href="/settings/patient"
+                                className={`block p-2 rounded ${
+                                    pathname === "/settings/patient"
+                                        ? "bg-blue-700"
+                                        : "hover:bg-blue-800"
+                                }`}>
+                            Logout
+                        </Link>
+                    </div>
                 </nav>
             </div>
         </div>
