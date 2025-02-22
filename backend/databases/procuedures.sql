@@ -10,7 +10,7 @@ CREATE PROCEDURE AddDoctor(
     IN p_Age INT
 )
 BEGIN
-    INSERT INTO Doctors (first_name, last_name, DoctorImage, Specialization, Certificate, Bio, Age)
+    INSERT INTO Doctors (first_name, last_name, DoctorImage, Specialization, Certificates, Bio, Age)
     VALUES (p_first_name, p_last_name, p_DoctorImage, p_Specialization, p_Certificate, p_Bio, p_Age);
 END //
 DELIMITER ;

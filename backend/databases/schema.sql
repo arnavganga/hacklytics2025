@@ -5,7 +5,7 @@ CREATE TABLE Doctors (
     last_name  VARCHAR(100) NOT NULL,         
     DoctorImage VARCHAR(255),           -- URL or path to doctor’s image       
     Specialization VARCHAR(100),        -- Doctor's specialization (e.g., Cardiologist)      
-    Certificate VARCHAR(255),           -- URL or path to certification file             
+    Certificates VARCHAR(255),           -- URL or path to certification file             
     Bio TEXT,                                 
     Age INT,                                                              
 );
@@ -59,9 +59,9 @@ CREATE TABLE Transaction (
 CREATE TABLE Chat (
     ChatID     SERIAL PRIMARY KEY,
     PatientID  INT NOT NULL,
-    Timestamp  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    TextedAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Message    TEXT NOT NULL,
-    AI_Response TEXT, -- Can be NULL if AI doesn’t respond
+    AI_Response TEXT,
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID) ON DELETE CASCADE,
     FOREIGN KEY (DoctorID) REFERENCES Doctor(DoctorID) ON DELETE CASCADE
 );

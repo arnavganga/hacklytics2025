@@ -1,48 +1,34 @@
 // Doctor Routes:
 
 // Stored Procedures:
-// AddDoctor, AddTransaction
+// AddDoctor
 
 // Queries:
-// GetPatientByID, GetAppointmentsForDoctor, GetPatientRecords
+// GetPatientByID, GetAppointmentsForDoctor, GetPaymentsForDoctor, GetPatientRecords
 
 import express from "express";
 
 const router = express.Router();
 
-// Add Doctor:
+// Add Doctor
 router.post("/addDoctor", async (req, res) => {
-  const { first_name, last_name, Specialization, Age } = req.body;
+  const {
+    first_name,
+    last_name,
+    DoctorImg,
+    Specialization,
+    Certificate,
+    Bio,
+    Age,
+  } = req.body;
   const connection = await pool.getConnection();
 
   try {
-    const [result] = await connection.query("CALL AddDoctor(?, ?, ?, ?)", [
-      first_name,
-      last_name,
-      Specialization,
-      Age,
-    ]);
+    const [result] = await connection.query(
+      "CALL AddDoctor(?, ?, ?, ?, ?, ?, ?)",
+      [first_name, last_name, DoctorImg, Specialization, Certificate, Bio, Age]
+    );
     res.status(200).json({ message: "Doctor added successfully", result });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  } finally {
-    connection.release();
-  }
-});
-
-// Add Transaction
-router.post("/addTransaction", async (req, res) => {
-  const { patientID, doctorID, amount, date } = req.body;
-  const connection = await pool.getConnection();
-
-  try {
-    const [result] = await connection.query("Call AddTransaction(?, ?, ?, ?)", [
-      patientID,
-      doctorID,
-      amount,
-      date,
-    ]);
-    res.status(200).json({ message: "Transaction was successful", result });
   } catch (error) {
     res.status(500).json({ error: error.message });
   } finally {
@@ -114,3 +100,27 @@ router.get("getPatientRecords/:id", async (req, res) => {
     connection.release();
   }
 });
+
+// GetPaymentsForDoctor
+router.get("getPaymentsForDoctor/:id", async (req, res) => {
+  const doctorID = req.params.id;
+  const connection = await pool.getConnection();
+
+  try {
+    const [rows] = await connection.query("Call GetPaymentsForDoctor(?)", [
+      doctorID,
+    ]);
+
+    if (rows.length === 0) {
+      res.status(404).json({ message: "Payments not found" });
+    } else {
+      res.status(200).json(rows[0]);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  } finally {
+    connection.release();
+  }
+});
+
+export default (pool) => router;
