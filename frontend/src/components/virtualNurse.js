@@ -1,9 +1,10 @@
+"use client";
 import { useState } from "react";
 import axios from "axios";
 
 export default function VirtualNurse() {
   const [patientMessage, setPatientMessage] = useState("");
-  const [aiResponse, setAIResponse] = useState({});
+  const [aiResponse, setAIResponse] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSendMessage = async () => {
@@ -12,12 +13,14 @@ export default function VirtualNurse() {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/virtual-nurse",
-        { patientMessage }
+        "http://localhost:5001/api/virtualNurse/",
+        { patientMessage, chatHistory: [] }
       );
-      setAiResponse(response.data.response);
+      setAIResponse(response.data.followUpQuestion);
+      console.log("Response:", response.data);
     } catch (error) {
-      setAiResponse("Error: Unable to process request.");
+      setAIResponse("Error: Unable to process request.", error);
+      console.error("Error:", error);
     }
     setLoading(false);
   };
@@ -39,9 +42,8 @@ export default function VirtualNurse() {
       >
         {loading ? "Processing..." : "Ask Nurse"}
       </button>
-      {aiResponse && (
-        <div className="mt-4 p-2 border bg-gray-100">{aiResponse}</div>
-      )}
+
+      <div className="mt-4 p-2 border bg-gray-100">{aiResponse}</div>
     </div>
   );
 }

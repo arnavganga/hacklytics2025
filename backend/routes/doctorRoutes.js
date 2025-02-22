@@ -6,7 +6,7 @@
 // Queries:
 // GetPatientByID, GetAppointmentsForDoctor, GetPaymentsForDoctor, GetPatientRecords
 
-import express from "express";
+const express = require("express");
 
 const router = express.Router();
 
@@ -123,4 +123,4 @@ router.get("getPaymentsForDoctor/:id", async (req, res) => {
   }
 });
 
-export default (pool) => router;
+module.exports = (pool) => router;

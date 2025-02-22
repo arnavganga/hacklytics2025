@@ -6,7 +6,7 @@
 // Queries:
 // GetAllDoctors, GetDoctorByID, GetAppointmentsForPatient, GetDoctorReviews, GetTransactionsForPatient
 // GetPatientRecords, GetChatHistory
-import express from "express";
+const express = require("express");
 
 const router = express.Router();
 
@@ -250,4 +250,4 @@ router.get("/getChatHistory/:patientId/:doctorId", async (req, res) => {
   }
 });
 
-export default (pool) => router;
+module.exports = (pool) => router;
