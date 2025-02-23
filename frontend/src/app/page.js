@@ -9,7 +9,7 @@ export default function Home() {
     <> 
       <Homes/>
       <LandingPage/>
-      <footer className="p-4 bg-black text-center text-gray-400">&copy; 2025 VirtualCare. All rights reserved.</footer>
+      <footer className="p-4 bg-black text-center text-gray-400">&copy; 2025 SimplyCare. All rights reserved.</footer>
     </>
   );
 }

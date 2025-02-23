@@ -1,23 +1,36 @@
 USE healthcare_db;
 
-
 -- Stored Procedures
+
+-- Drop existing procedures if they exist
+DROP PROCEDURE IF EXISTS AddDoctor;
+DROP PROCEDURE IF EXISTS AddPatient;
+DROP PROCEDURE IF EXISTS ScheduleAppointment;
+DROP PROCEDURE IF EXISTS AddReview;
+DROP PROCEDURE IF EXISTS AddPatientRecord;
+DROP PROCEDURE IF EXISTS AddTransaction;
+DROP PROCEDURE IF EXISTS SaveMessage;
+
+-- AddDoctor Procedure
 DELIMITER //
 CREATE PROCEDURE AddDoctor(
     IN p_first_name VARCHAR(100),
     IN p_last_name VARCHAR(100),
-    IN p_DoctorImage VARCHAR(255),
+    IN p_Email VARCHAR(255),
+    IN p_user_type VARCHAR(100), 
     IN p_Specialization VARCHAR(100),
-    IN p_Certificate VARCHAR(255),
     IN p_Bio TEXT,
     IN p_Age INT
 )
 BEGIN
-    INSERT INTO Doctors (first_name, last_name, DoctorImage, Specialization, Certificates, Bio, Age)
-    VALUES (p_first_name, p_last_name, p_DoctorImage, p_Specialization, p_Certificate, p_Bio, p_Age);
+    INSERT INTO User (Email, first_name, last_name, Age, user_type)
+    VALUES (p_Email, p_first_name, p_last_name, p_Age, p_user_type);
+    INSERT INTO Doctors (Email, Specialization, Bio)
+    VALUES (p_Email, p_Specialization, p_Bio);
 END //
 DELIMITER ;
 
+-- AddPatient Procedure
 DELIMITER //
 CREATE PROCEDURE AddPatient(
     IN p_first_name VARCHAR(100),
@@ -35,6 +48,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- ScheduleAppointment Procedure
 DELIMITER //
 CREATE PROCEDURE ScheduleAppointment(
     IN p_PatientID INT,
@@ -47,6 +61,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- AddReview Procedure
 DELIMITER //
 CREATE PROCEDURE AddReview(
     IN p_DoctorID INT,
@@ -64,6 +79,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- AddPatientRecord Procedure
 DELIMITER //
 CREATE PROCEDURE AddPatientRecord(
     IN p_PatientID INT,
@@ -75,6 +91,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- AddTransaction Procedure
 DELIMITER //
 CREATE PROCEDURE AddTransaction(
     IN p_PatientID INT,
@@ -92,6 +109,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- SaveMessage Procedure
 DELIMITER //
 CREATE PROCEDURE SaveMessage(
     IN p_PatientID INT,
