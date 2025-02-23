@@ -1,10 +1,15 @@
+'use client';
 import React from "react";
+import { MessageCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import CalendarComponent from "@/components/Calendar";
 import VirtualNurse from "@/components/virtualNurse";
 import AppointmentCard from "@/components/card-components/doctorAppointmentCard";
 
 export default function PatientDashboardPage() {
+  const router = useRouter();
+  
   const appointments = {
     upcoming: [
       {
@@ -52,34 +57,46 @@ export default function PatientDashboardPage() {
     ],
   };
 
+  const handleChatClick = () => {
+    router.push('/nurse-ai');
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-r from-purple-700 to-blue-500 p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4">
-            Upcoming Appointments
-          </h2>
-          <div className="flex space-x-4 overflow-x-auto pb-4">
-            {appointments.upcoming.map((appointment, index) => (
-              <AppointmentCard key={index} {...appointment} />
-            ))}
+    <div className="flex min-h-screen">
+      <Sidebar />
+      <div className="pl-5 pt-5 flex-1">
+        <div className="p-8">
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold mb-4">
+              Upcoming Appointments
+            </h2>
+            <div className="flex space-x-4 overflow auto pb-4">
+              {appointments.upcoming.map((appointment, index) => (
+                <AppointmentCard key={index} {...appointment} />
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-bold mb-4">
+              Past Appointments
+            </h2>
+            <div className="flex space-x-4 overflow auto pb-4">
+              {appointments.past.map((appointment, index) => (
+                <AppointmentCard key={index} {...appointment} />
+              ))}
+            </div>
           </div>
         </div>
 
-        <div>
-          <h2 className="text-2xl font-bold text-white mb-4">
-            Past Appointments
-          </h2>
-          <div className="flex space-x-4 overflow-x-auto pb-4">
-            {appointments.past.map((appointment, index) => (
-              <AppointmentCard key={index} {...appointment} />
-            ))}
-          </div>
-
-          <div className="w-1/5 min-w-[200px] right-0">
-            <Sidebar />
-          </div>
-        </div>
+        {/* Floating Action Button */}
+        <button
+          onClick={handleChatClick}
+          className="fixed bottom-6 right-6 p-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+          aria-label="Chat with AI Nurse"
+        >
+          <MessageCircle className="w-6 h-6" />
+        </button>
       </div>
     </div>
   );
