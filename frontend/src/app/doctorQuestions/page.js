@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Profile from "../../components/Profile";
+import DoctorQuestions from "../../components/doctorQuestions";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -13,5 +13,5 @@ export default function ProfilePage() {
     // You may want to add additional logic to handle cases where users have already selected their role
   }, []);
 
-  return <Profile />;
+  return <DoctorQuestions/>;
 }
