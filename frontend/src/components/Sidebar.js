@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const userRole = "patient"; // Replace with actual user role
+const userRole = "patient";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +12,7 @@ export default function Sidebar() {
 
   const patientLinks = [
     { href: "/dashboard/patient", label: "Dashboard" },
-    { href: "/appointments", label: "Book Appointments" },
+    { href: "/bookAppointment", label: "Book Appointments" },
     { href: "/transactions", label: "Recent Transactions" },
     { href: "/records", label: "Your Records" },
   ];

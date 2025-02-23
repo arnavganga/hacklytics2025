@@ -2,7 +2,7 @@ import React from "react";
 import Sidebar from "@/components/Sidebar";
 import CalendarComponent from "@/components/Calendar";
 import VirtualNurse from "@/components/virtualNurse";
-import AppointmentCard from "@/components/card-components/appointmentCard";
+import AppointmentCard from "@/components/card-components/doctorAppointmentCard";
 
 export default function PatientDashboardPage() {
   const appointments = {
