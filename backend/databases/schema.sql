@@ -4,22 +4,24 @@ use healthcare_db;
 
 
 -- Relational Database Tables
-CREATE TABLE Doctors (
-    DoctorID INT PRIMARY KEY,  
+
+CREATE TABLE User (
+	userID INT PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,    
-    last_name  VARCHAR(100) NOT NULL,         
+    last_name  VARCHAR(100) NOT NULL,   
+    Age INT CHECK (Age > 18),
+    type VARCHAR(100) NOT NULL
+    );
+CREATE TABLE Doctors (
+    DoctorID INT PRIMARY KEY,        
     DoctorImage VARCHAR(255),         
     Specialization VARCHAR(100),      
     Certificates VARCHAR(255),        
-    Bio TEXT,                                
-    Age NT CHECK (Age > 21)                                                     
+    Bio TEXT                                                                               
 );
 
 CREATE TABLE Patient (
-    PatientID INT PRIMARY KEY,
-    first_name VARCHAR(100) NOT NULL,    
-    last_name  VARCHAR(100) NOT NULL,         
-    Age       INT CHECK (Age > 18),
+    PatientID INT PRIMARY KEY,        
     Gender ENUM('Male', 'Female', 'Non-binary', 'Prefer Not to Say','Other') NOT NULL
 );
 
