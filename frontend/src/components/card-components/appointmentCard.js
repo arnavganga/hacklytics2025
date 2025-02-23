@@ -9,19 +9,23 @@ export default function AppointmentCard(props) {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg w-80 p-6 flex flex-col space-y-4 border border-gray-200">
-      <div className="flex iterms-center justify-between">
-        <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
-          <User className="h-6 w-6 rounded-full bg-blue-500" />
+    <div className="bg-white rounded-2xl shadow-lg w-80 p-6 border border-gray-200">
+      <div className="flex flex-col space-y-4">
+        {/* Top row with avatar and status */}
+        <div className="flex items-center justify-between">
+          <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
+            <User className="h-6 w-6 text-blue-500" />
+          </div>
+          <span
+            className={`px-3 py-1 rounded-full text-xs font-semibold ${
+              statusClasses[props.stat]
+            }`}
+          >
+            {props.stat}
+          </span>
         </div>
-        <span
-          className={`px-3 py-1 rounded-full text-xs font-semibold ${
-            statusClasses[props.stat]
-          }`}
-        >
-          {props.stat}
-        </span>
 
+        {/* Doctor info */}
         <div>
           <h3 className="text-lg font-semibold text-gray-900">
             {props.doctorName}
@@ -29,6 +33,7 @@ export default function AppointmentCard(props) {
           <p className="text-sm text-gray-500">{props.specialty}</p>
         </div>
 
+        {/* Appointment details */}
         <div className="space-y-3">
           <div className="flex items-center text-sm text-gray-600">
             <Calendar className="mr-2 h-5 w-5" />
@@ -38,17 +43,10 @@ export default function AppointmentCard(props) {
             <Clock className="mr-2 h-5 w-5" />
             {props.time}
           </div>
-          {props.isVirtual ? (
-            <div className="flex items-center text-sm text-green-600 font-medium">
-              <Video className="mr-2 h-5 w-5" />
-              Virtual Consultation
-            </div>
-          ) : (
-            <div className="flex items-center text-sm text-blue-600 font-medium">
-              <MapPin className="mr-2 h-5 w-5" />
-              In-person Visit
-            </div>
-          )}
+          <div className="flex items-center text-sm text-green-600 font-medium">
+            <Video className="mr-2 h-5 w-5" />
+            Virtual Consultation
+          </div>
         </div>
       </div>
     </div>
