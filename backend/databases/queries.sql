@@ -28,7 +28,7 @@ DELIMITER //
 CREATE PROCEDURE GetAppointmentsForDoctor(IN p_DoctorID INT)
 BEGIN
     SELECT a.AppointmentID, a.DateBooked, 
-           p.first_name AS PatientFirstName, p.last_name AS PatientLastName 
+           p.first_name AS PatientFirstName, p.last_name AS PatientLastName, 
     FROM Appointment a
     JOIN Patient p ON a.PatientID = p.PatientID
     WHERE a.DoctorID = p_DoctorID

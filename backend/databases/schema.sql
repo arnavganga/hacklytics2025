@@ -2,25 +2,29 @@ drop database if exists healthcare_db;
 create database if not exists healthcare_db;
 use healthcare_db;
 
-
 -- Relational Database Tables
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name  VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    Role ENUM('Patient', 'Doctor') NOT NULL,
+    Age INT CHECK (Age > 21) NOT NULL
+);
+
 CREATE TABLE Doctors (
-    DoctorID INT PRIMARY KEY,  
-    first_name VARCHAR(100) NOT NULL,    
-    last_name  VARCHAR(100) NOT NULL,         
+    DoctorID INT PRIMARY KEY,    
     DoctorImage VARCHAR(255),         
     Specialization VARCHAR(100),      
     Certificates VARCHAR(255),        
-    Bio TEXT,                                
-    Age NT CHECK (Age > 21)                                                     
+    Bio TEXT,
+    CONSTRAINT doctor_ibfk_1 FOREIGN KEY (DoctorID) REFERENCES Users(UserID) ON DELETE CASCADE                                                                                     
 );
 
 CREATE TABLE Patient (
     PatientID INT PRIMARY KEY,
-    first_name VARCHAR(100) NOT NULL,    
-    last_name  VARCHAR(100) NOT NULL,         
-    Age       INT CHECK (Age > 18),
-    Gender ENUM('Male', 'Female', 'Non-binary', 'Prefer Not to Say','Other') NOT NULL
+    Gender ENUM('Male', 'Female', 'Non-binary', 'Prefer Not to Say','Other') NOT NULL,
+    CONSTRAINT patient_ibfk_1 FOREIGN KEY (PatientID) REFERENCES Users(UserID) ON DELETE CASCADE
 );
 
 CREATE TABLE Appointment (

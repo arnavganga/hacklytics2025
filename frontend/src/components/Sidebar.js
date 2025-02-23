@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const userRole = "patient";
+const userRole = localStorage.getItem("user_type") || "patient";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
