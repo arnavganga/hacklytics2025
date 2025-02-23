@@ -1,74 +1,54 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import PatientAppointmentCard from "@/components/card-components/patientAppointmentsCard";
 
 export default function DoctorDashboardPage() {
-  const appointments = {
-    upcoming: [
-      {
-        patient: {
-          name: "Sarah Williams",
-          age: 34,
-          gender: "Female",
-          phone: "+1 (555) 123-4567",
-        },
-        date: "Feb 24, 2025",
-        time: "10:00 AM",
-        status: "Upcoming",
-        notes: "Follow-up on prescription medication",
-      },
-      {
-        patient: {
-          name: "Michael Brown",
-          age: 45,
-          gender: "Male",
-          phone: "+1 (555) 234-5678",
-        },
-        date: "Feb 24, 2025",
-        time: "11:30 AM",
-        status: "Upcoming",
-        notes: "Annual check-up",
-      },
-      {
-        patient: {
-          name: "Emma Davis",
-          age: 28,
-          gender: "Female",
-          phone: "+1 (555) 345-6789",
-        },
-        date: "Feb 24, 2025",
-        time: "2:00 PM",
-        status: "Upcoming",
-        notes: "Discussing test results",
-      },
-    ],
-    past: [
-      {
-        patient: {
-          name: "James Wilson",
-          age: 52,
-          gender: "Male",
-          phone: "+1 (555) 456-7890",
-        },
-        date: "Feb 20, 2025",
-        time: "3:00 PM",
-        status: "Completed",
-        notes: "Patient reported improvement in symptoms",
-      },
-      {
-        patient: {
-          name: "Linda Martinez",
-          age: 41,
-          gender: "Female",
-          phone: "+1 (555) 567-8901",
-        },
-        date: "Feb 19, 2025",
-        time: "9:30 AM",
-        status: "Completed",
-        notes: "Prescribed new medication",
-      },
-    ],
-  };
+  const [appointments, setAppointments] = useState({ upcoming: [], past: [] });
+  const doctorEmail = localStorage.getItem("email") || "none";
+
+  useEffect(() => {
+    async function fetchAppointments() {
+      try {
+        const response = await fetch(
+          `/api/doctors/getAppointmentsForDoctor/${doctorEmail}`
+        );
+        const data = await response.json();
+
+        const today = new Date();
+
+        const categorizedAppointments = data.reduce(
+          (acc, appointment) => {
+            const appointmentDate = new Date(appointment.DateBooked);
+            const status = appointmentDate >= today ? "Upcoming" : "Completed";
+
+            const formattedAppointment = {
+              patient: { name: appointment.PatientEmail }, // Adjust to fetch actual patient data
+              date: appointmentDate.toLocaleDateString(),
+              time: appointmentDate.toLocaleTimeString(),
+              status,
+              notes: "General Consultation", // Placeholder, replace with actual notes
+            };
+
+            if (status === "Upcoming") {
+              acc.upcoming.push(formattedAppointment);
+            } else {
+              acc.past.push(formattedAppointment);
+            }
+
+            return acc;
+          },
+          { upcoming: [], past: [] }
+        );
+
+        setAppointments(categorizedAppointments);
+      } catch (error) {
+        console.error("Error fetching appointments:", error);
+      }
+    }
+
+    fetchAppointments();
+  }, [doctorEmail]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -118,13 +98,5 @@ export default function DoctorDashboardPage() {
         </div>
       </div>
     </div>
-
-    // <div className="flex">
-    //     <div className="flex-1 p-6">
-    //     </div>
-    //     <div className="w-1/5 min-w-[200px] right-0">
-    //         <Sidebar />
-    //     </div>
-    // </div>
   );
 }

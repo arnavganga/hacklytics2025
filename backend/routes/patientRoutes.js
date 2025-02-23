@@ -170,7 +170,7 @@ router.get("/getAppointmentsForPatient/:id", async (req, res) => {
   try {
     const [appointments] = await connection.query(
       "Call GetAppointmentsForPatient(?)",
-      [patientID]
+      [patientEmail]
     );
     res.status(200).json(appointments);
   } catch (error) {
