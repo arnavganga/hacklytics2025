@@ -25,7 +25,7 @@ END //
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE GetAppointmentsForDoctor(IN p_DoctorID INT)
+CREATE PROCEDURE GetAppointmentsForDoctor(IN p_DoctorEmail INT)
 BEGIN
     SELECT a.AppointmentID, a.DateBooked, 
            p.first_name AS PatientFirstName, p.last_name AS PatientLastName 
@@ -37,13 +37,13 @@ END //
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE GetAppointmentsForPatient(IN p_PatientID INT)
+CREATE PROCEDURE GetAppointmentsForPatient(IN p_PatientEmail INT)
 BEGIN
     SELECT a.AppointmentID, a.DateBooked, 
            d.first_name AS DoctorFirstName, d.last_name AS DoctorLastName, d.Specialization
     FROM Appointment a
-    JOIN Doctors d ON a.DoctorID = d.DoctorID
-    WHERE a.PatientID = p_PatientID
+    JOIN Doctors d ON a.DoctorEmail = d.DoctorEmail
+    WHERE a.PatientEmail = p_PatientEmail
     ORDER BY a.DateBooked;
 END //
 DELIMITER ;

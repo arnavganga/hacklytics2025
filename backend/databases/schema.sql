@@ -44,7 +44,7 @@ CREATE TABLE Appointment (
     AppointmentID SERIAL PRIMARY KEY,
     PatientEmail     VARCHAR(255) NOT NULL,
     DoctorEmail      VARCHAR(255) NOT NULL,
-    DateBooked DATETIME NOT NULL,
+    DateBooked       DATETIME NOT NULL,
     CONSTRAINT appointment_ibfk_1 FOREIGN KEY (PatientEmail) REFERENCES Patient(Email) ON DELETE CASCADE,
     CONSTRAINT appointment_ibfk_2 FOREIGN KEY (DoctorEmail) REFERENCES Doctors(Email) ON DELETE CASCADE
 );
