@@ -41,33 +41,6 @@ const DoctorSettings = () => {
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-semibold mb-4">Doctor Profile</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Profile Picture */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Profile Picture
-          </label>
-          <div className="mt-2">
-            {isEditing ? (
-              <>
-                <input
-                  type="file"
-                  onChange={(e) => handleFileChange(e, "profilePicture")}
-                  className="p-2 border border-gray-300 rounded-md mb-2"
-                />
-                <p className="text-sm text-gray-500">
-                  Choose a new profile picture
-                </p>
-              </>
-            ) : (
-              <img
-                src={doctorInfo.profilePicture}
-                alt="Profile Picture"
-                className="w-32 h-32 object-cover rounded-full"
-              />
-            )}
-          </div>
-        </div>
-
         {/* Name */}
         <div>
           <label className="block text-sm font-medium text-gray-700">
@@ -104,24 +77,6 @@ const DoctorSettings = () => {
           )}
         </div>
 
-        {/* Work Number */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Work Number
-          </label>
-          {isEditing ? (
-            <input
-              type="text"
-              name="workNumber"
-              value={doctorInfo.workNumber}
-              onChange={handleChange}
-              className="mt-2 p-2 border border-gray-300 rounded-md w-full"
-            />
-          ) : (
-            <p className="mt-2 text-gray-700">{doctorInfo.workNumber}</p>
-          )}
-        </div>
-
         {/* Specialization */}
         <div>
           <label className="block text-sm font-medium text-gray-700">
@@ -137,51 +92,6 @@ const DoctorSettings = () => {
             />
           ) : (
             <p className="mt-2 text-gray-700">{doctorInfo.specialization}</p>
-          )}
-        </div>
-
-        {/* Certificate */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Certificate
-          </label>
-          <div className="mt-2">
-            {isEditing ? (
-              <>
-                <input
-                  type="file"
-                  onChange={(e) => handleFileChange(e, "certificate")}
-                  className="p-2 border border-gray-300 rounded-md mb-2"
-                />
-                <p className="text-sm text-gray-500">
-                  Choose a new certificate
-                </p>
-              </>
-            ) : (
-              <img
-                src={doctorInfo.certificate}
-                alt="Certificate"
-                className="w-32 h-32 object-cover rounded-md"
-              />
-            )}
-          </div>
-        </div>
-
-        {/* Hourly Rate */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Hourly Rate
-          </label>
-          {isEditing ? (
-            <input
-              type="number"
-              name="hourlyRate"
-              value={doctorInfo.hourlyRate}
-              onChange={handleChange}
-              className="mt-2 p-2 border border-gray-300 rounded-md w-full"
-            />
-          ) : (
-            <p className="mt-2 text-gray-700">{doctorInfo.hourlyRate}</p>
           )}
         </div>
 
