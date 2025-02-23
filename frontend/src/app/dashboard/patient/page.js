@@ -2,23 +2,85 @@ import React from "react";
 import Sidebar from "@/components/Sidebar";
 import CalendarComponent from "@/components/Calendar";
 import VirtualNurse from "@/components/virtualNurse";
+import AppointmentCard from "@/components/card-components/doctorAppointmentCard";
 
 export default function PatientDashboardPage() {
-    return (
-      <div className="min-h-full bg-gradient-to-r from-purple-700 to-blue-500">
-        <div className="p-5">
-          <h1 className="font-sans flex justify-center p-5 text-4xl">
-            Welcome patient_name!
-          </h1>
-        </div>
-        <div className="flex flex-row justify-between">
-          <div className="pl-5 max-w-2xl h-[80vh] min-h-[600px] overflow-auto z-0">
-            <CalendarComponent />
+  const appointments = {
+    upcoming: [
+      {
+        doctorName: "Dr. Sarah Johnson",
+        specialty: "General Physician",
+        date: "Feb 24, 2025",
+        time: "10:00 AM",
+        isVirtual: true,
+        stat: "Upcoming",
+      },
+      {
+        doctorName: "Dr. Michael Chen",
+        specialty: "Cardiologist",
+        date: "Feb 28, 2025",
+        time: "2:30 PM",
+        isVirtual: false,
+        stat: "Scheduled",
+      },
+      {
+        doctorName: "Dr. Lisa Brown",
+        specialty: "Neurologist",
+        date: "Mar 3, 2025",
+        time: "1:15 PM",
+        isVirtual: true,
+        stat: "Scheduled",
+      },
+    ],
+    past: [
+      {
+        doctorName: "Dr. Emily Wilson",
+        specialty: "Dermatologist",
+        date: "Feb 15, 2025",
+        time: "3:00 PM",
+        isVirtual: true,
+        stat: "Completed",
+      },
+      {
+        doctorName: "Dr. James Martinez",
+        specialty: "Orthopedist",
+        date: "Feb 10, 2025",
+        time: "11:30 AM",
+        isVirtual: false,
+        stat: "Completed",
+      },
+    ],
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-r from-purple-700 to-blue-500 p-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-white mb-4">
+            Upcoming Appointments
+          </h2>
+          <div className="flex space-x-4 overflow-x-auto pb-4">
+            {appointments.upcoming.map((appointment, index) => (
+              <AppointmentCard key={index} {...appointment} />
+            ))}
           </div>
+        </div>
+
+        <div>
+          <h2 className="text-2xl font-bold text-white mb-4">
+            Past Appointments
+          </h2>
+          <div className="flex space-x-4 overflow-x-auto pb-4">
+            {appointments.past.map((appointment, index) => (
+              <AppointmentCard key={index} {...appointment} />
+            ))}
+          </div>
+
           <div className="w-1/5 min-w-[200px] right-0">
             <Sidebar />
           </div>
         </div>
       </div>
-    );
+    </div>
+  );
 }

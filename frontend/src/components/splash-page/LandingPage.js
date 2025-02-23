@@ -26,7 +26,7 @@ export default function LandingPage() {
         <section className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
           <FeatureCard icon={<FaUserMd />} title="Virtual Consultations with Doctors" description="Schedule appointments online, no need to visit the hospital" />
           <FeatureCard icon={<FaClock />} title="Faster & Affordable" description="Save time and money by reducing travel costs." />
-          <FeatureCard icon={<FaLock />} title="Secure Blockchain Storage" description="Protect your medical records with top-tier security." />
+          <FeatureCard icon={<FaLock />} title="Secure Cloud Storage" description="Protect your medical records with top-tier security." />
         </section>
       </main>
     </div>
