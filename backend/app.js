@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const db = require("./databases/db");
 const doctorRoutes = require("./routes/doctorRoutes");
 const patientRoutes = require("./routes/patientRoutes");
 const virtualNurseRoutes = require("./routes/virtualNurseRoutes");

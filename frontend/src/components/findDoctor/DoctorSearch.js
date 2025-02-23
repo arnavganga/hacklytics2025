@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Search, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -17,47 +17,42 @@ const DoctorSearch = () => {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [open, setOpen] = useState(false);
 
-  const doctors = [
-    {
-      id: 1,
-      name: "Dr. Sarah Johnson",
-      specialty: "Cardiologist",
-      image: "/api/placeholder/150/150",
-      rating: 4.8,
-      reviewCount: 124,
-      availability: "Next available: Today",
-      location: "Boston, MA",
-      experience: "15+ years",
-    },
-    {
-      id: 2,
-      name: "Dr. Michael Chen",
-      specialty: "Pediatrician",
-      image: "/api/placeholder/150/150",
-      rating: 4.9,
-      reviewCount: 89,
-      availability: "Next available: Tomorrow",
-      location: "Boston, MA",
-      experience: "12 years",
-    },
-    {
-      id: 3,
-      name: "Dr. Emily Martinez",
-      specialty: "Dermatologist",
-      image: "/api/placeholder/150/150",
-      rating: 4.7,
-      reviewCount: 156,
-      availability: "Next available: Today",
-      location: "Cambridge, MA",
-      experience: "8 years",
-    },
-  ];
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const specialties = ["all", ...new Set(doctors.map((doctor) => doctor.specialty))];
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:5001/api/patients/getAllDoctors"
+        );
+
+        console.log(response);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data);
+        setDoctors(data);
+      } catch (error) {
+        console.error("Error fetching doctors:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoctors();
+  }, [open]);
+
+  const specialties = [
+    "all",
+    ...new Set(doctors.map((doctor) => doctor.specialty)),
+  ];
 
   const filteredDoctors = doctors.filter((doctor) => {
     const matchesSearch =
-      doctor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      doctor.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       doctor.specialty.toLowerCase().includes(searchQuery.toLowerCase()) ||
       doctor.location.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesSpecialty =
@@ -72,8 +67,8 @@ const DoctorSearch = () => {
         <Star
           key={i}
           className={`w-4 h-4 ${
-            i < Math.floor(rating) 
-              ? "text-yellow-400 fill-yellow-400" 
+            i < Math.floor(rating)
+              ? "text-yellow-400 fill-yellow-400"
               : "text-gray-200 fill-gray-200"
           }`}
         />
@@ -115,29 +110,39 @@ const DoctorSearch = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredDoctors.map((doctor) => (
-          <Card 
-            key={doctor.id} 
+          <Card
+            key={doctor.id}
             className="cursor-pointer hover:shadow-lg transition"
             onClick={() => handleCardClick(doctor)}
           >
             <CardContent className="p-6">
               <div className="flex items-start gap-4">
                 <Avatar className="w-20 h-20 flex-shrink-0">
-                  <img src={doctor.image} alt={doctor.name} className="rounded-full" />
+                  <img
+                    src={doctor.image}
+                    alt={doctor.name}
+                    className="rounded-full"
+                  />
                 </Avatar>
                 <div className="flex-1 space-y-3">
                   <div>
-                    <h3 className="font-semibold text-lg text-gray-900">{doctor.name}</h3>
+                    <h3 className="font-semibold text-lg text-gray-900">
+                      {doctor.name}
+                    </h3>
                     <p className="text-gray-600 text-sm">{doctor.specialty}</p>
                   </div>
                   <div className="flex items-center gap-1">
                     {renderStars(doctor.rating)}
-                    <span className="text-sm text-gray-600 ml-2">({doctor.reviewCount})</span>
+                    <span className="text-sm text-gray-600 ml-2">
+                      ({doctor.reviewCount})
+                    </span>
                   </div>
                   <div className="space-y-2">
                     <p className="text-sm text-gray-600">{doctor.location}</p>
                     <p className="text-sm text-gray-600">{doctor.experience}</p>
-                    <p className="text-sm text-green-600 font-medium">{doctor.availability}</p>
+                    <p className="text-sm text-green-600 font-medium">
+                      {doctor.availability}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -148,7 +153,9 @@ const DoctorSearch = () => {
 
       {filteredDoctors.length === 0 && (
         <div className="text-center py-8">
-          <p className="text-gray-600 text-lg">No doctors found matching your search criteria.</p>
+          <p className="text-gray-600 text-lg">
+            No doctors found matching your search criteria.
+          </p>
         </div>
       )}
 
@@ -156,7 +163,9 @@ const DoctorSearch = () => {
         <DialogContent className="max-w-2xl p-0">
           <DialogHeader className="sr-only">
             <DialogTitle>
-              {selectedDoctor ? `${selectedDoctor.name}'s Profile` : 'Doctor Profile'}
+              {selectedDoctor
+                ? `${selectedDoctor.name}'s Profile`
+                : "Doctor Profile"}
             </DialogTitle>
           </DialogHeader>
           {selectedDoctor && <ExpandCard doctor={selectedDoctor} />}

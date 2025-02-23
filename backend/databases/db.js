@@ -15,13 +15,15 @@ const pool = mysql.createPool({
   port: DB_PORT,
 });
 
-pool.getConnection((err, connection) => {
-  if (err) {
-    console.error("Error connecting to the database:", err.stack);
-    return;
-  }
-  console.log("Connected to the database.");
-  connection.release(); // Release the connection back to the pool
-});
+const promisePool = pool.promise();
 
-module.exports = pool;
+promisePool
+  .getConnection()
+  .then((connection) => {
+    console.log("Connected to the database.");
+    connection.release();
+  })
+  .catch((err) => {
+    console.error("Error connecting to the database:", err.stack);
+  });
+module.exports = promisePool;
