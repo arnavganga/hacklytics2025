@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const userRole = "doctor"; // Replace with actual user role
+const userRole = "patient"; // Replace with actual user role
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
