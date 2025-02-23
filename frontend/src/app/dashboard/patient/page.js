@@ -3,8 +3,6 @@ import React from "react";
 import { MessageCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
-import CalendarComponent from "@/components/Calendar";
-import VirtualNurse from "@/components/virtualNurse";
 import AppointmentCard from "@/components/card-components/doctorAppointmentCard";
 
 export default function PatientDashboardPage() {
