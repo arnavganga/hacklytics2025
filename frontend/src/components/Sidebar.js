@@ -14,7 +14,6 @@ export default function Sidebar() {
     { href: "/dashboard/patient", label: "Dashboard" },
     { href: "/bookAppointment", label: "Book Appointments" },
     { href: "/transactions", label: "Recent Transactions" },
-    { href: "/records", label: "Your Records" },
   ];
 
   const doctorLinks = [
