@@ -16,6 +16,7 @@
     "@fullcalendar/react": "^6.1.15",
     "@mui/material": "^6.4.5",
     "@shadcn/ui": "^0.0.4",
+    "@stytch/nextjs": "^21.4.1",
     "axios": "^1.7.9",
     "framer-motion": "^12.4.7",
     "i": "^0.3.7",

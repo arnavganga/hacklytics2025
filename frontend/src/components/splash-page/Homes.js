@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import Link from "next/link"; // Import Link component from Next.js
 
 export default function Home() {
   return (
@@ -7,7 +8,9 @@ export default function Home() {
       <div className="flex justify-between items-center fixed top-0 w-full h-20 p-4 bg-black backdrop-blur-md shadow-md z-50">
         <div className="text-xl font-bold">Project Name</div>
         <div className="flex gap-4">
-          <button className="bg-black text-white h-full py-2 px-4 rounded font-bold hover:bg-gray-800">Log In</button>
+          <Link href="/login">
+             <button className="bg-black text-white h-full py-2 px-4 rounded font-bold hover:bg-gray-800">Log In</button>
+          </Link>
           <button className="bg-black text-white h-full py-2 px-4 rounded font-bold hover:bg-gray-800">Sign Up</button>
         </div>
       </div>
@@ -17,7 +20,9 @@ export default function Home() {
           Welcome to our telemedicine platform! Connect with doctors, manage your health, and save time with virtual consultations. It&apos;s healthcare at your fingertips.
         </p>
         <div className="flex justify-center items-center">
-          <button className="w-48 h-12 bg-black text-white py-2 px-12 rounded-lg font-bold hover:bg-gray-800 mx-4">Log In</button>
+          <Link href="/login">
+            <button className="w-48 h-12 bg-black text-white py-2 px-12 rounded-lg font-bold hover:bg-gray-800 mx-4">Log In</button>
+          </Link>
           <button className="w-48 h-12 bg-black text-white py-2 px-12 rounded-lg font-bold hover:bg-gray-800 mx-4">Sign Up</button>
         </div>
         <p className="mt-5 text-sm">Join the <span className="font-bold">future</span> of healthcare!</p>
