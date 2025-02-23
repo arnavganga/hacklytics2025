@@ -9,7 +9,7 @@ export default function AppointmentCard(props) {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg w-80 p-6 border border-gray-200">
+    <div className="bg-white bg-opacity-70 rounded-2xl shadow-lg w-80 p-6 border border-gray-200">
       <div className="flex flex-col space-y-4">
         {/* Top row with avatar and status */}
         <div className="flex items-center justify-between">

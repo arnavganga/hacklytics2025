@@ -1,30 +1,22 @@
-"use client";
 import React, { useState } from "react";
-import { Search, Star } from "@mui/icons-material";
+import { Search, Star } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Avatar } from "@/components/ui/avatar";
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  Button,
-  TextField,
-  Avatar,
   Dialog,
   DialogContent,
+  DialogHeader,
   DialogTitle,
-  IconButton,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-// Import the ExpandCard component
+} from "@/components/ui/dialog";
 import ExpandCard from "@/components/card-components/expandCard";
 
 const DoctorSearch = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSpecialty, setSelectedSpecialty] = useState("all");
-  const [selectedDoctor, setSelectedDoctor] = useState(null); // Track the selected doctor
-  const [open, setOpen] = useState(false); // Control the dialog's visibility
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [open, setOpen] = useState(false);
 
-  // Sample doctors data
   const doctors = [
     {
       id: 1,
@@ -61,13 +53,8 @@ const DoctorSearch = () => {
     },
   ];
 
-  // Get unique specialties for filter
-  const specialties = [
-    "all",
-    ...new Set(doctors.map((doctor) => doctor.specialty)),
-  ];
+  const specialties = ["all", ...new Set(doctors.map((doctor) => doctor.specialty))];
 
-  // Filter doctors based on search query and specialty
   const filteredDoctors = doctors.filter((doctor) => {
     const matchesSearch =
       doctor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -78,58 +65,45 @@ const DoctorSearch = () => {
     return matchesSearch && matchesSpecialty;
   });
 
-  // Helper function to render stars
   const renderStars = (rating) => {
     return Array(5)
       .fill(0)
       .map((_, i) => (
         <Star
           key={i}
-          style={{
-            width: "20px",
-            height: "20px",
-            color: i < Math.floor(rating) ? "gold" : "gray",
-          }}
+          className={`w-4 h-4 ${
+            i < Math.floor(rating) 
+              ? "text-yellow-400 fill-yellow-400" 
+              : "text-gray-200 fill-gray-200"
+          }`}
         />
       ));
   };
 
-  // Handle opening the dialog
   const handleCardClick = (doctor) => {
-    setSelectedDoctor(doctor); // Set the selected doctor
-    setOpen(true); // Open the dialog
-  };
-
-  // Handle closing the dialog
-  const handleCloseDialog = () => {
-    setOpen(false); // Close the dialog
-    setSelectedDoctor(null); // Clear selected doctor
+    setSelectedDoctor(doctor);
+    setOpen(true);
   };
 
   return (
     <div className="max-w-7xl mx-auto p-6">
-      {/* Search Section */}
       <div className="mb-10">
         <h1 className="text-3xl font-semibold mb-6">Find a Doctor</h1>
-        <div className="flex gap-4 mb-6">
-          <TextField
-            variant="outlined"
-            fullWidth
+        <div className="relative w-full mb-6">
+          <Search className="absolute left-4 top-3 text-gray-400" size={20} />
+          <input
+            type="text"
             placeholder="Search by name, specialty, or location..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            InputProps={{
-              startAdornment: <Search style={{ color: "#ccc" }} />,
-            }}
+            className="w-full pl-12 pr-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div className="flex flex-wrap gap-2">
           {specialties.map((specialty) => (
             <Button
               key={specialty}
-              variant={
-                selectedSpecialty === specialty ? "contained" : "outlined"
-              }
+              variant={selectedSpecialty === specialty ? "default" : "outline"}
               onClick={() => setSelectedSpecialty(specialty)}
               className="capitalize"
             >
@@ -139,36 +113,31 @@ const DoctorSearch = () => {
         </div>
       </div>
 
-      {/* Results Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredDoctors.map((doctor) => (
-          <Card
-            key={doctor.id}
-            className="hover:shadow-lg transition-shadow cursor-pointer"
-            onClick={() => handleCardClick(doctor)} // Open dialog on click
+          <Card 
+            key={doctor.id} 
+            className="cursor-pointer hover:shadow-lg transition"
+            onClick={() => handleCardClick(doctor)}
           >
-            <CardContent>
-              <div className="flex items-center gap-6">
-                <Avatar className="w-20 h-20">
-                  <img
-                    src={doctor.image}
-                    alt={doctor.name}
-                    className="rounded-full"
-                  />
+            <CardContent className="p-6">
+              <div className="flex items-start gap-4">
+                <Avatar className="w-20 h-20 flex-shrink-0">
+                  <img src={doctor.image} alt={doctor.name} className="rounded-full" />
                 </Avatar>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-xl">{doctor.name}</h3>
-                  <p className="text-gray-600">{doctor.specialty}</p>
-                  <div className="flex items-center gap-1 my-2">
-                    {renderStars(doctor.rating)}
-                    <span className="text-sm text-gray-600 ml-2">
-                      ({doctor.reviewCount})
-                    </span>
+                <div className="flex-1 space-y-3">
+                  <div>
+                    <h3 className="font-semibold text-lg text-gray-900">{doctor.name}</h3>
+                    <p className="text-gray-600 text-sm">{doctor.specialty}</p>
                   </div>
-                  <div className="text-sm text-gray-600 space-y-1">
-                    <p>{doctor.location}</p>
-                    <p>{doctor.experience}</p>
-                    <p className="text-green-600">{doctor.availability}</p>
+                  <div className="flex items-center gap-1">
+                    {renderStars(doctor.rating)}
+                    <span className="text-sm text-gray-600 ml-2">({doctor.reviewCount})</span>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-sm text-gray-600">{doctor.location}</p>
+                    <p className="text-sm text-gray-600">{doctor.experience}</p>
+                    <p className="text-sm text-green-600 font-medium">{doctor.availability}</p>
                   </div>
                 </div>
               </div>
@@ -179,31 +148,18 @@ const DoctorSearch = () => {
 
       {filteredDoctors.length === 0 && (
         <div className="text-center py-8">
-          <p className="text-gray-600 text-lg">
-            No doctors found matching your search criteria.
-          </p>
+          <p className="text-gray-600 text-lg">No doctors found matching your search criteria.</p>
         </div>
       )}
 
-      {/* Dialog for ExpandCard */}
-      <Dialog open={open} onClose={handleCloseDialog} maxWidth="lg" fullWidth>
-        <DialogTitle>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <span>Doctor Details</span>
-            <IconButton onClick={handleCloseDialog} edge="end">
-              <CloseIcon />
-            </IconButton>
-          </div>
-        </DialogTitle>
-        <DialogContent>
-          {selectedDoctor && <ExpandCard doctor={selectedDoctor} />}{" "}
-          {/* Display the selected doctor's details */}
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-2xl p-0">
+          <DialogHeader className="sr-only">
+            <DialogTitle>
+              {selectedDoctor ? `${selectedDoctor.name}'s Profile` : 'Doctor Profile'}
+            </DialogTitle>
+          </DialogHeader>
+          {selectedDoctor && <ExpandCard doctor={selectedDoctor} />}
         </DialogContent>
       </Dialog>
     </div>

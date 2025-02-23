@@ -1,26 +1,23 @@
 import React, { useState } from "react";
+import { Calendar } from "@/components/ui/calendar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar } from "@/components/ui/avatar";
+import { Star, MapPin, Phone, Mail, Clock } from "lucide-react";
 import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Avatar,
   Dialog,
-  DialogActions,
   DialogContent,
+  DialogHeader,
   DialogTitle,
-} from "@mui/material";
-import { Star, MapPin, Phone, Mail, AccessTime } from "@mui/icons-material";
-import { Calendar } from "@mui/lab";
+  DialogFooter,
+} from "@/components/ui/dialog";
 
-const ExpandCard = ({ props }) => {
+const DoctorProfileCard = () => {
   const [date, setDate] = useState(new Date());
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const [open, setOpen] = useState(false);
 
-  // Sample doctor data
   const doctor = {
-    id: 1,
     name: "Dr. Sarah Johnson",
     specialty: "Cardiologist",
     image: "/api/placeholder/150/150",
@@ -32,237 +29,138 @@ const ExpandCard = ({ props }) => {
     about:
       "Specialized in cardiovascular health with 15+ years of experience. Board certified with expertise in preventive cardiology and heart disease management.",
     reviews: [
-      {
-        id: 1,
-        author: "John D.",
-        rating: 5,
-        text: "Excellent doctor, very thorough and caring.",
-      },
-      {
-        id: 2,
-        author: "Mary S.",
-        rating: 4,
-        text: "Professional and knowledgeable. Highly recommend.",
-      },
+      { id: 1, author: "John D.", rating: 5, text: "Excellent doctor, very thorough and caring." },
+      { id: 2, author: "Mary S.", rating: 4, text: "Professional and knowledgeable. Highly recommend." },
     ],
   };
 
-  // Generate time slots for the selected date
   const generateTimeSlots = () => {
     const slots = [];
-    const startHour = 9; // 9 AM
-    const endHour = 17; // 5 PM
-
-    for (let hour = startHour; hour < endHour; hour++) {
-      for (let minute = 0; minute < 60; minute += 15) {
-        slots.push({
-          time: `${hour.toString().padStart(2, "0")}:${minute
-            .toString()
-            .padStart(2, "0")}`,
-          available: Math.random() > 0.3, // Randomly set availability
-        });
-      }
+    for (let hour = 9; hour < 17; hour++) {
+      slots.push({
+        time: `${hour}:00`,
+        available: Math.random() > 0.3,
+      });
     }
     return slots;
   };
-
   const timeSlots = generateTimeSlots();
 
-  // Helper function to render stars
   const renderStars = (rating) => {
     return Array(5)
       .fill(0)
       .map((_, i) => (
-        <Star
-          key={i}
-          style={{
-            width: "20px",
-            height: "20px",
-            color: i < Math.floor(rating) ? "gold" : "gray",
-          }}
-        />
+        <Star key={i} className={`w-4 h-4 ${i < Math.floor(rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
       ));
   };
 
+  const handleBookingClick = (e) => {
+    e.preventDefault();
+    setOpen(true);
+  };
+
   return (
-    <Card sx={{ width: "100%", maxWidth: 800, margin: "auto" }}>
-      <CardHeader>
-        <div style={{ display: "flex", alignItems: "flex-start", gap: "16px" }}>
-          <Avatar sx={{ width: 96, height: 96 }}>
-            <img
-              src={doctor.image}
-              alt={doctor.name}
-              style={{ borderRadius: "50%" }}
-            />
-          </Avatar>
-          <div style={{ flex: 1 }}>
-            <CardTitle variant="h5">{doctor.name}</CardTitle>
-            <p style={{ color: "#666", marginBottom: "8px" }}>
-              {doctor.specialty}
-            </p>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                marginBottom: "8px",
-              }}
-            >
-              {renderStars(doctor.rating)}
-              <span style={{ fontSize: "0.875rem", color: "#666" }}>
-                ({doctor.reviewCount} reviews)
-              </span>
+    <Card className="w-full max-w-3xl mx-auto p-4 shadow-lg rounded-lg">
+      <CardHeader className="flex gap-4">
+        <Avatar className="w-24 h-24">
+          <img src={doctor.image} alt={doctor.name} className="rounded-full" />
+        </Avatar>
+        <div>
+          <CardTitle className="text-2xl mb-2">{doctor.name}</CardTitle>
+          <p className="text-gray-600">{doctor.specialty}</p>
+          <div className="flex items-center gap-2 mt-2">
+            {renderStars(doctor.rating)}
+            <span className="ml-2 text-sm text-gray-600">({doctor.reviewCount} reviews)</span>
+          </div>
+          <div className="text-gray-600 mt-2 space-y-1">
+            <div className="flex items-center gap-2">
+              <MapPin size={16} /> {doctor.location}
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "8px",
-                fontSize: "0.875rem",
-                color: "#666",
-              }}
-            >
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "8px" }}
-              >
-                <MapPin style={{ fontSize: "16px" }} />
-                {doctor.location}
-              </div>
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "8px" }}
-              >
-                <Phone style={{ fontSize: "16px" }} />
-                {doctor.phone}
-              </div>
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "8px" }}
-              >
-                <Mail style={{ fontSize: "16px" }} />
-                {doctor.email}
-              </div>
+            <div className="flex items-center gap-2">
+              <Phone size={16} /> {doctor.phone}
+            </div>
+            <div className="flex items-center gap-2">
+              <Mail size={16} /> {doctor.email}
             </div>
           </div>
         </div>
       </CardHeader>
 
       <CardContent>
-        <div style={{ marginBottom: "24px" }}>
-          <h3
-            style={{
-              fontSize: "1.25rem",
-              fontWeight: "600",
-              marginBottom: "8px",
-            }}
-          >
-            About
-          </h3>
-          <p style={{ color: "#666" }}>{doctor.about}</p>
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold mb-2">About</h3>
+          <p className="text-gray-600">{doctor.about}</p>
         </div>
 
-        <Dialog open={false} onClose={() => {}}>
-          <DialogContent>
-            <DialogTitle>Schedule Appointment</DialogTitle>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "16px",
-              }}
-            >
+        <Button 
+          className="w-full mb-6" 
+          onClick={handleBookingClick}
+          type="button"
+        >
+          Book Appointment
+        </Button>
+
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent className="sm:max-w-2xl p-4 max-h-[90vh] overflow-hidden">
+            <DialogHeader>
+              <DialogTitle className="text-lg">Schedule Appointment</DialogTitle>
+            </DialogHeader>
+            <div className="grid md:grid-cols-2 gap-4 mt-2">
               <div>
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={setDate}
-                  className="rounded-md border"
+                <Calendar 
+                  mode="single" 
+                  selected={date} 
+                  onSelect={setDate} 
+                  className="w-full rounded-md bg-white shadow-sm scale-90 origin-top"
                 />
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "16px",
-                }}
-              >
-                <h4 style={{ fontWeight: "500" }}>Available Time Slots</h4>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(2, 1fr)",
-                    gap: "16px",
-                  }}
-                >
+              <div>
+                <h4 className="font-medium mb-2">Available Time Slots</h4>
+                <div className="grid grid-cols-2 gap-2">
                   {timeSlots.map((slot) => (
                     <Button
                       key={slot.time}
-                      variant={slot.available ? "outlined" : "text"}
+                      variant={slot.available ? "outline" : "ghost"}
                       disabled={!slot.available}
                       onClick={() => setSelectedTimeSlot(slot.time)}
-                      sx={{
-                        border:
-                          selectedTimeSlot === slot.time
-                            ? "2px solid #1976d2"
-                            : "",
-                        opacity: slot.available ? 1 : 0.5,
-                      }}
+                      className={`h-8 text-sm ${
+                        selectedTimeSlot === slot.time ? "border-primary" : ""
+                      } ${slot.available ? "" : "opacity-50"}`}
+                      type="button"
                     >
-                      <AccessTime style={{ marginRight: "8px" }} />
+                      <Clock className="w-3 h-3 mr-1" />
                       {slot.time}
                     </Button>
                   ))}
                 </div>
               </div>
             </div>
-            <DialogActions>
+            <DialogFooter className="mt-4">
               <Button
-                onClick={() => {
-                  console.log(
-                    `Booking appointment for ${date.toDateString()} at ${selectedTimeSlot}`
-                  );
-                }}
                 disabled={!selectedTimeSlot}
+                onClick={() => {
+                  console.log(`Booking appointment for ${date.toDateString()} at ${selectedTimeSlot}`);
+                  setOpen(false);
+                }}
+                type="button"
+                className="w-full sm:w-auto"
               >
                 Confirm Booking
               </Button>
-            </DialogActions>
+            </DialogFooter>
           </DialogContent>
         </Dialog>
 
         <div>
-          <h3
-            style={{
-              fontSize: "1.25rem",
-              fontWeight: "600",
-              marginBottom: "16px",
-            }}
-          >
-            Reviews
-          </h3>
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "16px" }}
-          >
+          <h3 className="text-lg font-semibold mb-4">Reviews</h3>
+          <div className="space-y-4">
             {doctor.reviews.map((review) => (
-              <div
-                key={review.id}
-                style={{
-                  borderBottom: "1px solid #ddd",
-                  paddingBottom: "16px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    marginBottom: "8px",
-                  }}
-                >
-                  <div style={{ display: "flex" }}>
-                    {renderStars(review.rating)}
-                  </div>
-                  <span style={{ fontWeight: "500" }}>{review.author}</span>
+              <div key={review.id} className="border-b pb-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="flex">{renderStars(review.rating)}</div>
+                  <span className="font-medium">{review.author}</span>
                 </div>
-                <p style={{ color: "#666" }}>{review.text}</p>
+                <p className="text-gray-600">{review.text}</p>
               </div>
             ))}
           </div>
@@ -272,4 +170,4 @@ const ExpandCard = ({ props }) => {
   );
 };
 
-export default ExpandCard;
+export default DoctorProfileCard;

@@ -53,10 +53,10 @@ export default function PatientDashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gradient-to-r from-purple-700 to-blue-500 p-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          <h2 className="text-2xl font-bold text-white mb-4">
             Upcoming Appointments
           </h2>
           <div className="flex space-x-4 overflow-x-auto pb-4">
@@ -67,7 +67,7 @@ export default function PatientDashboardPage() {
         </div>
 
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          <h2 className="text-2xl font-bold text-white mb-4">
             Past Appointments
           </h2>
           <div className="flex space-x-4 overflow-x-auto pb-4">

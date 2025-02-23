@@ -76,7 +76,7 @@ export default function Sidebar() {
             </Link>
             {/* Static Logout Link */}
             <Link
-              href="/logout"
+              href="/"
               className={`block p-2 rounded ${
                 pathname === "/logout" ? "bg-blue-700" : "hover:bg-blue-800"
               }`}
