@@ -12,7 +12,7 @@ CREATE TABLE Doctors (
     Specialization VARCHAR(100),      
     Certificates VARCHAR(255),        
     Bio TEXT,                                
-    Age INT                                                     
+    Age NT CHECK (Age > 21)                                                     
 );
 
 CREATE TABLE Patient (
