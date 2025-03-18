@@ -1,13 +1,26 @@
 USE healthcare_db;
 
+-- Drop existing procedures if they exist
+DROP PROCEDURE IF EXISTS GetAllDoctors;
+DROP PROCEDURE IF EXISTS GetDoctorByEmail;
+DROP PROCEDURE IF EXISTS GetPatientByEmail;
+DROP PROCEDURE IF EXISTS GetAppointmentsForDoctor;
+DROP PROCEDURE IF EXISTS GetAppointmentsForPatient;
+DROP PROCEDURE IF EXISTS GetDoctorReviews;
+DROP PROCEDURE IF EXISTS GetTransactionsForPatient;
+DROP PROCEDURE IF EXISTS GetChatHistory;
+
 -- Get all doctors with their reviews
 DELIMITER //
-CREATE PROCEDURE GetAllDoctors()
+Create PROCEDURE GetAllDoctors()
 BEGIN
-    SELECT d.first_name, d.last_name, r.Rating, r.Feedback
-    FROM Doctors d
-    LEFT JOIN Review r ON d.Email = r.DoctorEmail
-    ORDER BY r.Rating DESC;
+    Select u.first_name, u.last_name, avg(r.rating) as rating, count(r.rating) as counter, d.specialization, d.bio, u.email
+    from User u
+    left join review r on u.Email = r.DoctorEmail
+    left join doctors d on u.email = d.email
+    where u.user_type = 'doctor'
+    group by u.email
+    order by avg(r.rating) desc;
 END //
 DELIMITER ;
 
@@ -15,7 +28,10 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE GetDoctorByEmail(IN p_DoctorEmail VARCHAR(255))
 BEGIN
-    SELECT * FROM Doctors WHERE Email = p_DoctorEmail;
+    SELECT * 
+    FROM Doctors d
+    Join Users u on u.email = d.Email
+    WHERE Email = p_DoctorEmail;
 END //
 DELIMITER ;
 
@@ -23,7 +39,9 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE GetPatientByEmail(IN p_PatientEmail VARCHAR(255))
 BEGIN
-    SELECT * FROM Patient WHERE Email = p_PatientEmail;
+    SELECT * FROM Patient p
+    join User u on p.Email = u.Email
+    WHERE Email = p_PatientEmail;
 END //
 DELIMITER ;
 

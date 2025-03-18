@@ -17,14 +17,13 @@ CREATE PROCEDURE AddDoctor(
     IN p_first_name VARCHAR(100),
     IN p_last_name VARCHAR(100),
     IN p_Email VARCHAR(255),
-    IN p_UserType VARCHAR(100),
     IN p_Specialization VARCHAR(100),
     IN p_Bio TEXT,
     IN p_Age INT
 )
 BEGIN
     INSERT INTO User (Email, first_name, last_name, Age, user_type)
-    VALUES (p_Email, p_first_name, p_last_name, p_Age, p_UserType);
+    VALUES (p_Email, p_first_name, p_last_name, p_Age, 'doctor');
     
     INSERT INTO Doctors (Email, Specialization, Bio)
     VALUES (p_Email, p_Specialization, p_Bio);
@@ -59,11 +58,12 @@ CREATE PROCEDURE ScheduleAppointment(
     IN p_PatientEmail VARCHAR(255),
     IN p_DoctorEmail VARCHAR(255),
     IN p_DateTime DATETIME,
-    IN p_MeetingLink VARCHAR(255)
+    IN p_MeetingLink VARCHAR(255),
+    IN p_Summary TEXT
 )
 BEGIN
-    INSERT INTO Appointment (PatientEmail, DoctorEmail, DateBooked, MeetingLink)
-    VALUES (p_PatientEmail, p_DoctorEmail, p_DateTime, p_MeetingLink);
+    INSERT INTO Appointment (PatientEmail, DoctorEmail, DateBooked, MeetingLink, Summary)
+    VALUES (p_PatientEmail, p_DoctorEmail, p_DateTime, p_MeetingLink, p_Summary);
 END //
 DELIMITER ;
 
@@ -82,18 +82,6 @@ BEGIN
         INSERT INTO Review (DoctorEmail, PatientEmail, Rating, Feedback, CreatedAt)
         VALUES (p_DoctorEmail, p_PatientEmail, p_Rating, p_Feedback, NOW());
     END IF;
-END //
-DELIMITER ;
-
--- AddPatientRecord Procedure
-DELIMITER //
-CREATE PROCEDURE AddPatientRecord(
-    IN p_PatientEmail VARCHAR(255),
-    IN p_FileHash VARCHAR(255)
-)
-BEGIN
-    INSERT INTO PatientInformation (PatientEmail, FileHash, UploadedAt)
-    VALUES (p_PatientEmail, p_FileHash, NOW());
 END //
 DELIMITER ;
 

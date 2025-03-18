@@ -1,12 +1,5 @@
 require("dotenv").config();
 
-// console.log("GEMINI_API_KEY:", process.env.GEMINI_API_KEY);
-// console.log("DB_HOST:", process.env.DB_HOST);
-// console.log("DB_USER:", process.env.DB_USER);
-// console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
-// console.log("DB_NAME:", process.env.DB_NAME);
-// console.log("DB_PORT:", process.env.DB_PORT);
-
 module.exports = {
   // Gemini API Configuration
   GEMINI_API_KEY: process.env.GEMINI_API_KEY, // Sensitive information should come from .env
@@ -19,3 +12,6 @@ module.exports = {
   DB_NAME: process.env.DB_NAME || "healthcareDB",
   DB_PORT: process.env.DB_PORT || 3306,
 };
+
+// The config file has all the necessary information needed for the whole backend folder
+// It contains the necesssar information for the Gemini API and the database

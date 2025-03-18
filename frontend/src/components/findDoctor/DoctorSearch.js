@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Search, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,53 +12,60 @@ import {
 import ExpandCard from "@/components/card-components/expandCard";
 
 const DoctorSearch = () => {
+  // Use state to store the variables and change them when needed
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSpecialty, setSelectedSpecialty] = useState("all");
+  const [filteredDoctors, setFilteredDoctors] = useState([]);
+
+  const [doctors, setDoctors] = useState([]);
+  const [ratings, setRatings] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [open, setOpen] = useState(false);
 
-  const [doctors, setDoctors] = useState([]);
-  const [loading, setLoading] = useState(true);
-
+  // Fetch doctors from the database through api
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5001/api/patients/getAllDoctors"
+          "http://localhost:5001/patients/getAllDoctors"
         );
-
-        console.log(response);
-
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
+
         const data = await response.json();
         console.log(data);
-        setDoctors(data);
+
+        setDoctors(data[0]);
       } catch (error) {
-        console.error("Error fetching doctors:", error);
-      } finally {
-        setLoading(false);
+        console.log("Error fetching doctors:", error);
       }
     };
 
     fetchDoctors();
-  }, [open]);
+  }, []);
 
-  const specialties = [
-    "all",
-    ...new Set(doctors.map((doctor) => doctor.specialty)),
-  ];
+  // To filter data by specialization
+  const specialty = new Set(doctors.map((doctor) => doctor.specialization));
+  const specialties = ["all", ...specialty];
 
-  const filteredDoctors = doctors.filter((doctor) => {
-    const matchesSearch =
-      doctor.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doctor.specialty.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doctor.location.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesSpecialty =
-      selectedSpecialty === "all" || doctor.specialty === selectedSpecialty;
-    return matchesSearch && matchesSpecialty;
-  });
+  // Filters the data based on the change in input from the search query
+  useEffect(() => {
+    const results = doctors.filter((doctor) => {
+      const matchSearch =
+        doctor.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        doctor.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        doctor.specialization.toLowerCase().includes(searchQuery.toLowerCase());
+
+      if (selectedSpecialty === "all") {
+        return matchSearch;
+      } else {
+        return matchSearch && doctor.specialization === selectedSpecialty;
+      }
+    });
+
+    setFilteredDoctors(results);
+  }, [searchQuery, doctors, selectedSpecialty]);
 
   const renderStars = (rating) => {
     return Array(5)
@@ -95,9 +102,9 @@ const DoctorSearch = () => {
           />
         </div>
         <div className="flex flex-wrap gap-2">
-          {specialties.map((specialty) => (
+          {specialties.map((specialty, idx) => (
             <Button
-              key={specialty}
+              key={idx}
               variant={selectedSpecialty === specialty ? "default" : "outline"}
               onClick={() => setSelectedSpecialty(specialty)}
               className="capitalize"
@@ -109,9 +116,9 @@ const DoctorSearch = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredDoctors.map((doctor) => (
+        {filteredDoctors.map((doctor, idx) => (
           <Card
-            key={doctor.id}
+            key={idx}
             className="cursor-pointer hover:shadow-lg transition"
             onClick={() => handleCardClick(doctor)}
           >
@@ -127,22 +134,17 @@ const DoctorSearch = () => {
                 <div className="flex-1 space-y-3">
                   <div>
                     <h3 className="font-semibold text-lg text-gray-900">
-                      {doctor.name}
+                      {doctor.first_name + " " + doctor.last_name}
                     </h3>
-                    <p className="text-gray-600 text-sm">{doctor.specialty}</p>
+                    <p className="text-gray-600 text-sm">
+                      {doctor.specialization}
+                    </p>
                   </div>
                   <div className="flex items-center gap-1">
                     {renderStars(doctor.rating)}
-                    <span className="text-sm text-gray-600 ml-2">
-                      ({doctor.reviewCount})
+                    <span className="text-gray-600 text-sm ml-2">
+                      ({doctor.counter} reviews)
                     </span>
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-sm text-gray-600">{doctor.location}</p>
-                    <p className="text-sm text-gray-600">{doctor.experience}</p>
-                    <p className="text-sm text-green-600 font-medium">
-                      {doctor.availability}
-                    </p>
                   </div>
                 </div>
               </div>
@@ -164,7 +166,9 @@ const DoctorSearch = () => {
           <DialogHeader className="sr-only">
             <DialogTitle>
               {selectedDoctor
-                ? `${selectedDoctor.name}'s Profile`
+                ? `${
+                    selectedDoctor.first_name + " " + selectedDoctor.last_name
+                  }'s Profile`
                 : "Doctor Profile"}
             </DialogTitle>
           </DialogHeader>

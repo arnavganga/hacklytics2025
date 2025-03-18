@@ -1,3 +1,4 @@
+// Imports all the necessary information and libraries
 const mysql = require("mysql2");
 const {
   DB_HOST,
@@ -15,6 +16,7 @@ const pool = mysql.createPool({
   port: DB_PORT,
 });
 
+// Allows us to make async calls to the database and allows us to utilize await.
 const promisePool = pool.promise();
 
 promisePool
@@ -26,4 +28,5 @@ promisePool
   .catch((err) => {
     console.error("Error connecting to the database:", err.stack);
   });
+
 module.exports = promisePool;

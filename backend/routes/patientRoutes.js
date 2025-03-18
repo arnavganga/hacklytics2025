@@ -19,7 +19,6 @@ router.get(
   "/getTransactionsForPatient/:id",
   patientController.getTransactionsForPatient
 );
-router.get("/getPatientRecords/:id", patientController.getPatientRecords);
 router.get(
   "/getChatHistory/:patientId/:doctorId",
   patientController.getChatHistory

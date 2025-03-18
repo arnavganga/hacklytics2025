@@ -2,11 +2,12 @@ const pool = require("../databases/db");
 
 // AddPatient
 const addPatient = async (req, res) => {
-  const { first_name, last_name, Age, Gender } = req.body;
+  const { email, first_name, last_name, Age, Gender } = req.body;
   const connection = await pool.getConnection();
 
   try {
-    const [result] = await connection.query("CALL AddPatient(?, ?, ?, ?)", [
+    const [result] = await connection.query("CALL AddPatient(?, ?, ?, ?, ?)", [
+      email,
       first_name,
       last_name,
       Age,
@@ -22,13 +23,13 @@ const addPatient = async (req, res) => {
 
 // ScheduleAppointment
 const scheduleAppointment = async (req, res) => {
-  const { PatientID, DoctorID, DateTime } = req.body;
+  const { PatientID, DoctorID, DateTime, Link, Summary } = req.body;
   const connection = await pool.getConnection();
 
   try {
     const [result] = await connection.query(
-      "CALL ScheduleAppointment(?, ?, ?)",
-      [PatientID, DoctorID, DateTime]
+      "CALL ScheduleAppointment(?, ?, ?, ?, ?)",
+      [PatientID, DoctorID, DateTime, Link, Summary]
     );
     res
       .status(200)
@@ -47,8 +48,8 @@ const addReview = async (req, res) => {
 
   try {
     const [result] = await connection.query("CALL AddReview(?, ?, ?, ?)", [
-      PatientID,
       DoctorID,
+      PatientID,
       Rating,
       Feedback,
     ]);
@@ -185,23 +186,6 @@ const getTransactionsForPatient = async (req, res) => {
   }
 };
 
-// GetPatientRecords
-const getPatientRecords = async (req, res) => {
-  const patientID = req.params.id;
-  const connection = await pool.getConnection();
-
-  try {
-    const [records] = await connection.query("CALL GetPatientRecords(?)", [
-      patientID,
-    ]);
-    res.status(200).json(records);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  } finally {
-    connection.release();
-  }
-};
-
 // GetChatHistory
 const getChatHistory = async (req, res) => {
   const { patientId, doctorId } = req.params;
@@ -231,6 +215,5 @@ module.exports = {
   getAppointmentsForPatient,
   getDoctorReviews,
   getTransactionsForPatient,
-  getPatientRecords,
   getChatHistory,
 };

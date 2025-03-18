@@ -2,9 +2,6 @@ const pool = require("../databases/db");
 
 // Add Doctor
 exports.addDoctor = async (req, res) => {
-  console.log("Request Headers:", req.headers);
-  console.log("Request Body:", req.body);
-
   const { first_name, last_name, email, user_type, specialization, bio, age } =
     req.body;
 
@@ -49,7 +46,7 @@ exports.getPatientById = async (req, res) => {
   const connection = await pool.getConnection();
 
   try {
-    const [rows] = await connection.query("CALL GetPatientByID(?)", [
+    const [rows] = await connection.query("CALL GetPatientByEmail(?)", [
       patientID,
     ]);
     if (rows.length === 0) {
