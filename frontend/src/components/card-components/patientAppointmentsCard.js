@@ -31,7 +31,7 @@ export default function PatientAppointmentsCard(props) {
             {props.patient.name}
           </h3>
           <p className="text-sm text-gray-500">
-            Age: {props.patient.age} • {props.patient.gender}
+            Age: {props.age} • {props.gender}
           </p>
         </div>
 
@@ -47,7 +47,7 @@ export default function PatientAppointmentsCard(props) {
           </div>
           <div className="flex items-center text-sm text-green-600 font-medium">
             <Video className="mr-2 h-5 w-5" />
-            Virtual Consultation
+            <span className="text-xs">{props.link}</span>
           </div>
         </div>
 
@@ -59,10 +59,10 @@ export default function PatientAppointmentsCard(props) {
               <span>{props.notes}</span>
             </div>
           )}
-          <div className="flex items-center text-sm text-blue-600">
+          {/* <div className="flex items-center text-sm text-blue-600">
             <Phone className="mr-2 h-5 w-5" />
             {props.patient.phone}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

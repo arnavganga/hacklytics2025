@@ -50,9 +50,11 @@ DELIMITER //
 CREATE PROCEDURE GetAppointmentsForDoctor(IN p_DoctorEmail VARCHAR(255))
 BEGIN
     SELECT a.AppointmentID, a.DateBooked, 
-           p.first_name AS PatientFirstName, p.last_name AS PatientLastName 
+           p.first_name AS PatientFirstName, p.last_name AS PatientLastName, 
+           p.age, a.MeetingLink as link, Patient.Gender as gender, a.summary
     FROM Appointment a
     JOIN User p ON a.PatientEmail = p.Email
+    join Patient on a.PatientEmail = Patient.Email
     WHERE a.DoctorEmail = p_DoctorEmail
     ORDER BY a.DateBooked;
 END //
@@ -63,9 +65,11 @@ DELIMITER //
 CREATE PROCEDURE GetAppointmentsForPatient(IN p_PatientEmail VARCHAR(255))
 BEGIN
     SELECT a.AppointmentID, a.DateBooked, 
-           d.first_name AS DoctorFirstName, d.last_name AS DoctorLastName, d.Specialization
+           d.first_name AS DoctorFirstName, d.last_name AS DoctorLastName, Doctors.Specialization,
+           a.meetinglink as link
     FROM Appointment a
-    JOIN Doctors d ON a.DoctorEmail = d.Email
+    JOIN User d ON a.DoctorEmail = d.Email
+    JOIN Doctors on a.DoctorEmail = Doctors.email
     WHERE a.PatientEmail = p_PatientEmail
     ORDER BY a.DateBooked;
 END //

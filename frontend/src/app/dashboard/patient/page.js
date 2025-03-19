@@ -14,7 +14,7 @@ export default function PatientDashboardPage() {
     async function fetchAppointments() {
       try {
         const response = await fetch(
-          `/api/patients/getAppointmentsForPatient/${patientEmail}`
+          `http://localhost:5001/patients/getAppointmentsForPatient/jane.smith@example.com`
         );
 
         console.log("API Response Status:", response.status);
@@ -23,20 +23,25 @@ export default function PatientDashboardPage() {
           response.headers.get("content-type")
         );
         const data = await response.json();
+        console.log(data);
+
+        const results = data[0];
 
         const today = new Date();
 
-        const categorizedAppointments = data.reduce(
+        const categorizedAppointments = results.reduce(
           (acc, appointment) => {
             const appointmentDate = new Date(appointment.DateBooked);
             const status = appointmentDate >= today ? "Upcoming" : "Completed";
 
             const formattedAppointment = {
-              patient: { name: appointment.PatientEmail }, // Adjust to fetch actual patient data
+              name:
+                appointment.DoctorFirstName + " " + appointment.DoctorLastName, // Adjust to fetch actual patient data
               date: appointmentDate.toLocaleDateString(),
               time: appointmentDate.toLocaleTimeString(),
               status,
-              notes: "General Consultation", // Placeholder, replace with actual notes
+              specialty: appointment.Specialization,
+              link: appointment.link,
             };
 
             if (status === "Upcoming") {
@@ -58,55 +63,6 @@ export default function PatientDashboardPage() {
 
     fetchAppointments();
   }, [patientEmail]);
-
-  //   const router = useRouter();
-
-  //   const appointments = {
-  //     upcoming: [
-  //       {
-  //         doctorName: "Dr. Sarah Johnson",
-  //         specialty: "General Physician",
-  //         date: "Feb 24, 2025",
-  //         time: "10:00 AM",
-  //         isVirtual: true,
-  //         stat: "Upcoming",
-  //       },
-  //       {
-  //         doctorName: "Dr. Michael Chen",
-  //         specialty: "Cardiologist",
-  //         date: "Feb 28, 2025",
-  //         time: "2:30 PM",
-  //         isVirtual: false,
-  //         stat: "Scheduled",
-  //       },
-  //       {
-  //         doctorName: "Dr. Lisa Brown",
-  //         specialty: "Neurologist",
-  //         date: "Mar 3, 2025",
-  //         time: "1:15 PM",
-  //         isVirtual: true,
-  //         stat: "Scheduled",
-  //       },
-  //     ],
-  //     past: [
-  //       {
-  //         doctorName: "Dr. Emily Wilson",
-  //         specialty: "Dermatologist",
-  //         date: "Feb 15, 2025",
-  //         time: "3:00 PM",
-  //         isVirtual: true,
-  //         stat: "Completed",
-  //       },
-  //       {
-  //         doctorName: "Dr. James Martinez",
-  //         specialty: "Orthopedist",
-  //         date: "Feb 10, 2025",
-  //         time: "11:30 AM",
-  //         isVirtual: false,
-  //         stat: "Completed",
-  //       },
-  //     ],
-  //   };
 
   const handleChatClick = () => {
     router.push("/nurse-ai");
