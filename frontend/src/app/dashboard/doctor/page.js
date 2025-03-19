@@ -11,23 +11,34 @@ export default function DoctorDashboardPage() {
     async function fetchAppointments() {
       try {
         const response = await fetch(
-          `/api/doctors/getAppointmentsForDoctor/${doctorEmail}`
+          `http://localhost:5001/doctors/getAppointmentsForDoctor/john.doe@example.com`
         );
-        const data = await response.json();
 
+        const data = await response.json();
+        console.log(data);
+
+        const results = data[0];
         const today = new Date();
 
-        const categorizedAppointments = data.reduce(
+        const categorizedAppointments = results.reduce(
           (acc, appointment) => {
             const appointmentDate = new Date(appointment.DateBooked);
             const status = appointmentDate >= today ? "Upcoming" : "Completed";
 
             const formattedAppointment = {
-              patient: { name: appointment.PatientEmail }, // Adjust to fetch actual patient data
+              patient: {
+                name:
+                  appointment.PatientFirstName +
+                  " " +
+                  appointment.PatientLastName,
+              }, // Adjust to fetch actual patient data
               date: appointmentDate.toLocaleDateString(),
               time: appointmentDate.toLocaleTimeString(),
               status,
-              notes: "General Consultation", // Placeholder, replace with actual notes
+              age: appointment.age,
+              gender: appointment.gender,
+              link: appointment.link,
+              notes: appointment.summary,
             };
 
             if (status === "Upcoming") {
@@ -57,15 +68,19 @@ export default function DoctorDashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <div className="bg-white rounded-xl shadow-md p-6">
             <h3 className="text-lg font-semibold text-gray-600">
-              Today's Consultations
+              Upcoming Consultations
             </h3>
-            <p className="text-3xl font-bold text-blue-600 mt-2">8</p>
+            <p className="text-3xl font-bold text-blue-600 mt-2">
+              {appointments.upcoming.length}
+            </p>
           </div>
           <div className="bg-white rounded-xl shadow-md p-6">
             <h3 className="text-lg font-semibold text-gray-600">
-              Total Scheduled
+              Total Completed Consultations
             </h3>
-            <p className="text-3xl font-bold text-green-600 mt-2">15</p>
+            <p className="text-3xl font-bold text-green-600 mt-2">
+              {appointments.past.length + appointments.upcoming.length}
+            </p>
           </div>
         </div>
 

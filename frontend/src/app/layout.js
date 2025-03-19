@@ -24,7 +24,8 @@ const geistMono = Geist_Mono({
 // Metadata
 export const metadata = {
   title: "Stytch Next.js App Router Example",
-  description: "An example Next.js App Router application using Stytch for authentication",
+  description:
+    "An example Next.js App Router application using Stytch for authentication",
 };
 
 export default function RootLayout({ children }) {
@@ -35,10 +36,10 @@ export default function RootLayout({ children }) {
           <title>{metadata.title}</title>
           <meta name="description" content={metadata.description} />
         </head>
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <main>
-            {children}
-          </main>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <main>{children}</main>
         </body>
       </html>
     </StytchProvider>

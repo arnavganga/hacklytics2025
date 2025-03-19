@@ -27,9 +27,7 @@ export default function AppointmentCard(props) {
 
         {/* Doctor info */}
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">
-            {props.doctorName}
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-900">{props.name}</h3>
           <p className="text-sm text-gray-500">{props.specialty}</p>
         </div>
 
@@ -45,7 +43,7 @@ export default function AppointmentCard(props) {
           </div>
           <div className="flex items-center text-sm text-green-600 font-medium">
             <Video className="mr-2 h-5 w-5" />
-            Virtual Consultation
+            <span className="text-xs">{props.link}</span>
           </div>
         </div>
       </div>

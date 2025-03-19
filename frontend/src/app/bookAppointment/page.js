@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import FindDoctor from "@/components/findDoctor/DoctorSearch";
+import DoctorSearch from "@/components/findDoctor/DoctorSearch";
 import Sidebar from "@/components/Sidebar";
 
 export default function DoctorSettingsPage() {
@@ -8,15 +8,13 @@ export default function DoctorSettingsPage() {
     <div className="flex">
       {/* Main content area */}
       <div className={`flex-1 p-10 transition-all duration-300 justify-center`}>
-
-      <FindDoctor />
+        <DoctorSearch />
       </div>
 
       {/* Sidebar */}
       <div>
         <Sidebar />
       </div>
-
     </div>
   );
 }

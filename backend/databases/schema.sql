@@ -63,15 +63,6 @@ CREATE TABLE Review (
     CONSTRAINT review_ibfk_2 FOREIGN KEY (PatientEmail) REFERENCES Patient(Email) ON DELETE CASCADE
 );
 
--- Create PatientInformation table
-CREATE TABLE PatientInformation (
-    RecordID     SERIAL PRIMARY KEY,
-    PatientEmail VARCHAR(255) NOT NULL,
-    FileHash     VARCHAR(255) NOT NULL, 
-    UploadedAt   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT patientinfo_ibfk_1 FOREIGN KEY (PatientEmail) REFERENCES Patient(Email) ON DELETE CASCADE
-);
-
 -- Create Transaction table
 CREATE TABLE Transaction (
     TransactionID SERIAL PRIMARY KEY,
@@ -121,11 +112,6 @@ INSERT INTO Appointment (PatientEmail, DoctorEmail, DateBooked, MeetingLink, Sum
 INSERT INTO Review (DoctorEmail, PatientEmail, Rating, Feedback) VALUES
 ('john.doe@example.com', 'jane.smith@example.com', 4.5, 'Great consultation! Very informative.'),
 ('alex.lee@example.com', 'susan.white@example.com', 5.0, 'Helped me a lot with my skin issues.');
-
--- Insert into PatientInformation table
-INSERT INTO PatientInformation (PatientEmail, FileHash) VALUES
-('jane.smith@example.com', 'Qm123abc456def789'),
-('susan.white@example.com', 'Qm987xyz654lmn321');
 
 -- Insert into Transaction table
 INSERT INTO Transaction (PatientEmail, DoctorEmail, Amount, DateSent) VALUES
