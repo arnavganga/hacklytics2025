@@ -10,6 +10,16 @@ DROP PROCEDURE IF EXISTS GetDoctorReviews;
 DROP PROCEDURE IF EXISTS GetTransactionsForPatient;
 DROP PROCEDURE IF EXISTS GetChatHistory;
 
+-- Get user type by email (For Authentication)
+DELIMITER //
+CREAT PROCEDURE GETUSER(IN p_UserEmail VARCHAR(255))
+BEGIN
+    Select u.user_type
+    from User u
+    where u.email = p_UserEmail;
+END //
+DELIMITER ;
+
 -- Get all doctors with their reviews
 DELIMITER //
 Create PROCEDURE GetAllDoctors()

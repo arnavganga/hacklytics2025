@@ -114,13 +114,36 @@ const getAllDoctors = async (req, res) => {
   }
 };
 
+// GetUserByEmail
+const GetUserByEmail = async (req, res) => {
+  const userEmail = req.params.email;
+  const connection = await pool.getConnection();
+
+  try {
+    const [rows] = await connection.query("CALL GetDoctorByEmail(?)", [
+      userEmail,
+    ]);
+    if (rows.length === 0) {
+      res.status(404).json(null);
+    } else {
+      res.status(200).json(rows[0]);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  } finally {
+    connection.release();
+  }
+};
+
 // GetDoctorByID
 const getDoctorByID = async (req, res) => {
   const doctorID = req.params.id;
   const connection = await pool.getConnection();
 
   try {
-    const [rows] = await connection.query("CALL GetDoctorByID(?)", [doctorID]);
+    const [rows] = await connection.query("CALL GetDoctorByEmail(?)", [
+      doctorID,
+    ]);
     if (rows.length === 0) {
       res.status(404).json({ message: "Doctor not found" });
     } else {
@@ -216,4 +239,5 @@ module.exports = {
   getDoctorReviews,
   getTransactionsForPatient,
   getChatHistory,
+  GetUserByEmail,
 };

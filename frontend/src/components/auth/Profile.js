@@ -5,9 +5,9 @@
 
 // /**
 //  * The Profile component is shown to a user that is logged in.
-//  * 
-//  * This component renders the full User and Session object for education. 
-//  * 
+//  *
+//  * This component renders the full User and Session object for education.
+//  *
 //  * This component also includes a log out button which is accomplished by making a method call to revoking the existing session.
 // */
 // const Profile = () => {
@@ -54,11 +54,10 @@ const Profile = () => {
 
   // Handle role selection and navigate accordingly
   const handleRoleSelection = (selectedRole) => {
-      if (selectedRole === "doctor") {
-        localStorage.setItem('user_type', selectedRole)
+    if (selectedRole === "doctor") {
       router.push("/doctorQuestions"); // Route to doctorQuestions page
     } else if (selectedRole === "patient") {
-      router.push("/signup/patient"); // Route to patient signup page
+      router.push("/patientQuestions"); // Route to patient signup page
     } else {
       console.error("Invalid role selected"); // Safety check
     }

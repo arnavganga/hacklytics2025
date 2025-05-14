@@ -69,37 +69,55 @@ export default function PatientDashboardPage() {
   };
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar />
-      <div className="pl-5 pt-5 flex-1">
-        <div className="p-8">
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">Upcoming Appointments</h2>
-            <div className="flex space-x-4 overflow auto pb-4">
-              {appointments.upcoming.map((appointment, index) => (
-                <AppointmentCard key={index} {...appointment} />
-              ))}
-            </div>
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Today's stats */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <div className="bg-white rounded-xl shadow-md p-6">
+            <h3 className="text-lg font-semibold text-gray-600">
+              Upcoming Consultations
+            </h3>
+            <p className="text-3xl font-bold text-blue-600 mt-2">
+              {appointments.upcoming.length}
+            </p>
           </div>
-
-          <div>
-            <h2 className="text-2xl font-bold mb-4">Past Appointments</h2>
-            <div className="flex space-x-4 overflow auto pb-4">
-              {appointments.past.map((appointment, index) => (
-                <AppointmentCard key={index} {...appointment} />
-              ))}
-            </div>
+          <div className="bg-white rounded-xl shadow-md p-6">
+            <h3 className="text-lg font-semibold text-gray-600">
+              Total Completed Consultations
+            </h3>
+            <p className="text-3xl font-bold text-green-600 mt-2">
+              {appointments.past.length + appointments.upcoming.length}
+            </p>
           </div>
         </div>
 
-        {/* Floating Action Button */}
-        <button
-          onClick={handleChatClick}
-          className="fixed bottom-6 right-6 p-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg transition-all duration-200 hover:scale-110"
-          aria-label="Chat with AI Nurse"
-        >
-          <MessageCircle className="w-6 h-6" />
-        </button>
+        {/* Upcoming appointments */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Upcoming Consultations
+          </h2>
+          <div className="flex space-x-4 overflow-x-auto pb-4">
+            {appointments.upcoming.map((appointment, index) => (
+              <AppointmentCard key={index} {...appointment} />
+            ))}
+          </div>
+        </div>
+
+        {/* Past appointments */}
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Past Consultations
+          </h2>
+          <div className="flex space-x-4 overflow-x-auto pb-4">
+            {appointments.past.map((appointment, index) => (
+              <AppointmentCard key={index} {...appointment} />
+            ))}
+          </div>
+        </div>
+
+        <div className="w-1/5 min-w-[200px] right-0">
+          <Sidebar />
+        </div>
       </div>
     </div>
   );

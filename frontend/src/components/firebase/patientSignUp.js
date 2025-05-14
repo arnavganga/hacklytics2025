@@ -2,45 +2,62 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { auth } from "./config";
 
-const DoctorQuestions = () => {
+const PatientQuestions = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [age, setAge] = useState(0);
-  const [specialization, setSpecialization] = useState("");
-  const [bio, setBio] = useState("");
+  const [gender, setGender] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
+  const [createUserWithEmailAndPassword] =
+    useCreateUserWithEmailAndPassword(auth);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
     setIsLoading(true);
     setErrorMessage("");
 
     try {
-      const response = await fetch("http://localhost:5001/api/doctors/addDoctor", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          first_name: firstName,
-          last_name: lastName,
-          email: email,
-          user_type: "doctor",
-          specialization: specialization,
-          bio: bio,
-          age: age,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:5001/api/patients/addPatient",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            first_name: firstName,
+            last_name: lastName,
+            email: email,
+            user_type: "patient",
+            gender: gender,
+            age: age,
+          }),
+        }
+      );
 
       const data = await response.json();
+      if (!response.ok)
+        throw new Error(data.message || "Failed to add patient");
+      console.log("Success", data);
 
-      if (!response.ok) throw new Error(data.message || "Failed to add doctor");
+      // Create the user in Firebase
+      const res = await createUserWithEmailAndPassword(email, password);
+      console.log("User created:", res.user);
 
-      console.log("Success:", data);
       router.push("/login");
     } catch (error) {
       setErrorMessage(error.message);
@@ -53,11 +70,14 @@ const DoctorQuestions = () => {
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-purple-700 to-blue-500">
       <div className="bg-white p-10 rounded-3xl shadow-2xl max-w-lg w-full my-10">
         <h1 className="text-3xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-6">
-          Doctor Information
+          Patient Information
         </h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-lg font-medium text-gray-700" htmlFor="firstName">
+            <label
+              className="block text-lg font-medium text-gray-700"
+              htmlFor="firstName"
+            >
               First Name
             </label>
             <input
@@ -71,7 +91,10 @@ const DoctorQuestions = () => {
           </div>
 
           <div>
-            <label className="block text-lg font-medium text-gray-700" htmlFor="lastName">
+            <label
+              className="block text-lg font-medium text-gray-700"
+              htmlFor="lastName"
+            >
               Last Name
             </label>
             <input
@@ -85,7 +108,10 @@ const DoctorQuestions = () => {
           </div>
 
           <div>
-            <label className="block text-lg font-medium text-gray-700" htmlFor="email">
+            <label
+              className="block text-lg font-medium text-gray-700"
+              htmlFor="email"
+            >
               Email
             </label>
             <input
@@ -99,7 +125,10 @@ const DoctorQuestions = () => {
           </div>
 
           <div>
-            <label className="block text-lg font-medium text-gray-700" htmlFor="age">
+            <label
+              className="block text-lg font-medium text-gray-700"
+              htmlFor="age"
+            >
               Age
             </label>
             <input
@@ -115,30 +144,62 @@ const DoctorQuestions = () => {
           </div>
 
           <div>
-            <label className="block text-lg font-medium text-gray-700" htmlFor="specialization">
-              Specialization
+            <label
+              className="block text-lg font-medium text-gray-700"
+              htmlFor="gender"
+            >
+              Gender
+            </label>
+            {["Male", "Female", "Non-binary", "Prefer Not to Say", "Other"].map(
+              (label) => {
+                return (
+                  <label key={label} className="block mt-1">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value={label}
+                      checked={gender === label}
+                      onChange={(e) => setGender(e.target.value)}
+                      className="mr-2 ml-5"
+                    />
+                    {label}
+                  </label>
+                );
+              }
+            )}
+          </div>
+
+          <div>
+            <label
+              className="block text-lg font-medium text-gray-700"
+              htmlFor="password"
+            >
+              Password
             </label>
             <input
-              id="specialization"
-              type="text"
-              value={specialization}
-              onChange={(e) => setSpecialization(e.target.value)}
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full p-4 mt-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
 
           <div>
-            <label className="block text-lg font-medium text-gray-700" htmlFor="bio">
-              Bio
+            <label
+              className="block text-lg font-medium text-gray-700"
+              htmlFor="confirmPassword"
+            >
+              Confirm Password
             </label>
-            <textarea
-              id="bio"
-              value={bio}
-              onChange={(e) => setBio(e.target.value)}
-              rows="4"
+            <input
+              id="confirmPassword"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full p-4 mt-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Tell us about yourself..."
+              required
             />
           </div>
 
@@ -150,11 +211,13 @@ const DoctorQuestions = () => {
             {isLoading ? "Saving..." : "Save Information"}
           </button>
 
-          {errorMessage && <p className="text-red-500 mt-4 text-center">{errorMessage}</p>}
+          {errorMessage && (
+            <p className="text-red-500 mt-4 text-center">{errorMessage}</p>
+          )}
         </form>
       </div>
     </div>
   );
 };
 
-export default DoctorQuestions;
+export default PatientQuestions;

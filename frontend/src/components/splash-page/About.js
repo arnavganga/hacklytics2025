@@ -1,7 +1,7 @@
-'use client';
-import { useState } from 'react';
-import Link from 'next/link';
-import styles from './About.module.css';
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import styles from "./About.module.css";
 
 const About = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -26,7 +26,7 @@ const About = () => {
         {dynamicContent.buttons.map((button, index) => (
           <Link href={button.link} key={index}>
             <button
-              className={`${styles.button} ${isHovered ? styles.hovered : ''}`}
+              className={`${styles.button} ${isHovered ? styles.hovered : ""}`}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               aria-label={button.text}

@@ -37,12 +37,38 @@ const Authenticate = () => {
     }
   }, [isInitialized, router, searchParams, stytch, user]);
 
-  useEffect(() => {
+  useEffect(async () => {
     if (!isInitialized) {
       return;
     }
     if (user) {
-      router.replace("/dashboard/doctor");
+      const email = user?.emails[0]?.email;
+      try {
+        const res = await fetch("http://localhost:3000/api/patients/getUser", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+
+        const data = await res.json();
+
+        if (data == null) {
+          console.log("User not found");
+          router.push("/signup/patient");
+        } else {
+          localStorage.setItem("id", email);
+          localStorage.setItem("user-type", data.role);
+
+          if (data.role === "doctor") {
+            router.push("/dashboard/doctor");
+          }
+          if (data.role === "patient") {
+            router.push("/dashboard/patient");
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
     }
   }, [router, user, isInitialized]);
 

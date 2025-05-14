@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import DoctorSettings from "../../../components/settings/DoctorSettings";
 import Sidebar from "@/components/Sidebar";
+import Calendar from "@/components/settings/DoctorCalendar";
 
 export default function DoctorSettingsPage() {
   return (

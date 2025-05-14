@@ -1,5 +1,5 @@
 import "./globals.css";
-import StytchProvider from "../components/StytchProvider";
+import StytchProvider from "../components/auth/StytchProvider";
 
 // Font imports
 import { Geist, Geist_Mono, Inter, Space_Grotesk } from "next/font/google";

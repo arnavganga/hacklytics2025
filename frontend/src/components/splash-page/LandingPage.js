@@ -1,22 +1,26 @@
-import React from "react"; 
+import React from "react";
 import { FaUserMd, FaLock, FaClock } from "react-icons/fa";
 
 export default function LandingPage() {
-
-    const Button = ({ children, className }) => {
-        return (
-          <button className={`${className} py-2 px-6 rounded-lg text-white text-lg font-semibold`}>
-            {children}
-          </button>
-        );
-      };
+  const Button = ({ children, className }) => {
+    return (
+      <button
+        className={`${className} py-2 px-6 rounded-lg text-white text-lg font-semibold`}
+      >
+        {children}
+      </button>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-700 to-blue-500 text-white">
       <main className="container mx-auto px-6 py-24 text-center">
-      <h1 className="text-4xl font-bold text-white mb-6 mt-12">Get Treatment Without Leaving Home</h1>
+        <h1 className="text-4xl font-bold text-white mb-6 mt-12">
+          Get Treatment Without Leaving Home
+        </h1>
         <p className="text-lg text-gray-300 mb-6">
-          Talk to AI, schedule virtual doctor meetings, and store medical data securely with blockchain.
+          Talk to AI, schedule virtual doctor meetings, and store medical data
+          securely with blockchain.
         </p>
         {/* <div className="flex justify-center gap-6 mb-12"> 
           <Button className="bg-[#2575fc] hover:bg-[#0056b3]">Schedule an Appointment</Button>
@@ -24,9 +28,21 @@ export default function LandingPage() {
         </div> */}
 
         <section className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <FeatureCard icon={<FaUserMd />} title="Virtual Consultations with Doctors" description="Schedule appointments online, no need to visit the hospital" />
-          <FeatureCard icon={<FaClock />} title="Faster & Affordable" description="Save time and money by reducing travel costs." />
-          <FeatureCard icon={<FaLock />} title="Secure Cloud Storage" description="Protect your medical records with top-tier security." />
+          <FeatureCard
+            icon={<FaUserMd />}
+            title="Virtual Consultations with Doctors"
+            description="Schedule appointments online, no need to visit the hospital"
+          />
+          <FeatureCard
+            icon={<FaClock />}
+            title="Faster & Affordable"
+            description="Save time and money by reducing travel costs."
+          />
+          <FeatureCard
+            icon={<FaLock />}
+            title="Secure Cloud Storage"
+            description="Protect your medical records with top-tier security."
+          />
         </section>
       </main>
     </div>

@@ -1,14 +1,13 @@
 "use client";
+import DoctorCalendar from "./DoctorCalendar";
 import { useState } from "react";
 
 const DoctorSettings = () => {
   const [doctorInfo, setDoctorInfo] = useState({
-    profilePicture: "/path/to/dummy-pic.jpg",
     name: "Dr. John Doe",
     email: "johndoe@example.com",
     workNumber: "+1 234 567 890",
     specialization: "Cardiology",
-    certificate: "/path/to/dummy-pic.jpg",
     hourlyRate: "150",
     bio: "Experienced cardiologist with over 20 years of practice in treating heart diseases. Dedicated to providing excellent care.",
   });
@@ -18,11 +17,6 @@ const DoctorSettings = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setDoctorInfo({ ...doctorInfo, [name]: value });
-  };
-
-  // Handle file input change
-  const handleFileChange = (e, field) => {
-    setDoctorInfo({ ...doctorInfo, [field]: e.target.files[0] });
   };
 
   // Handle save action (you would integrate this with your database logic)
@@ -109,6 +103,10 @@ const DoctorSettings = () => {
             <p className="mt-2 text-gray-700">{doctorInfo.bio}</p>
           )}
         </div>
+      </div>
+
+      <div className="my-6">
+        <DoctorCalendar />
       </div>
 
       {/* Edit/Save Button */}

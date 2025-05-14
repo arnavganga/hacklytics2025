@@ -3,6 +3,7 @@ const router = express.Router();
 const patientController = require("../controllers/patientController");
 
 // Patient Routes
+router.post("/getUser", patientController.GetUserByEmail);
 router.post("/addPatient", patientController.addPatient);
 router.post("/scheduleAppointment", patientController.scheduleAppointment);
 router.post("/addReview", patientController.addReview);
