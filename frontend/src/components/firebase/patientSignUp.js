@@ -31,32 +31,35 @@ const PatientQuestions = () => {
     setErrorMessage("");
 
     try {
-      const response = await fetch(
-        "http://localhost:5001/api/patients/addPatient",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            first_name: firstName,
-            last_name: lastName,
-            email: email,
-            user_type: "patient",
-            gender: gender,
-            age: age,
-          }),
-        }
-      );
-
-      const data = await response.json();
-      if (!response.ok)
-        throw new Error(data.message || "Failed to add patient");
-      console.log("Success", data);
-
       // Create the user in Firebase
       const res = await createUserWithEmailAndPassword(email, password);
-      console.log("User created:", res.user);
+      // console.log("User created:", res.user);
+
+      // If sucessfully created a user add information to database
+      if (res && res.user) {
+        const response = await fetch(
+          "http://localhost:5001/patients/addPatient",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              first_name: firstName,
+              last_name: lastName,
+              email: email,
+              user_type: "patient",
+              gender: gender,
+              age: age,
+            }),
+          }
+        );
+
+        const data = await response.json();
+        if (!response.ok)
+          throw new Error(data.message || "Failed to add patient");
+        // console.log("Success", data);
+      }
 
       router.push("/login");
     } catch (error) {

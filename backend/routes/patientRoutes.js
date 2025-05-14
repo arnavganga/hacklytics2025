@@ -3,7 +3,6 @@ const router = express.Router();
 const patientController = require("../controllers/patientController");
 
 // Patient Routes
-router.post("/getUser", patientController.GetUserByEmail);
 router.post("/addPatient", patientController.addPatient);
 router.post("/scheduleAppointment", patientController.scheduleAppointment);
 router.post("/addReview", patientController.addReview);
@@ -11,6 +10,7 @@ router.post("/addTransaction", patientController.addTransaction);
 router.post("/saveMessage", patientController.saveMessage);
 router.get("/getAllDoctors", patientController.getAllDoctors);
 router.get("/getDoctorByID/:id", patientController.getDoctorByID);
+router.get("/getUser/:id", patientController.GetUserByEmail);
 router.get(
   "/getAppointmentsForPatient/:id",
   patientController.getAppointmentsForPatient

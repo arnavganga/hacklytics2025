@@ -10,8 +10,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import ExpandCard from "@/components/card-components/expandCard";
+import withAuth from "../firebase/authenticate";
 
-const DoctorSearch = () => {
+function DoctorSearch() {
   // Use state to store the variables and change them when needed
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSpecialty, setSelectedSpecialty] = useState("all");
@@ -177,6 +178,6 @@ const DoctorSearch = () => {
       </Dialog>
     </div>
   );
-};
+}
 
-export default DoctorSearch;
+export default withAuth(DoctorSearch, "patient");

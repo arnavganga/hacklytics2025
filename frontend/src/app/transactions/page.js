@@ -2,8 +2,9 @@
 import React, { useState } from "react";
 import TransactionHistory from "@/components/transactions/transactions";
 import Sidebar from "@/components/Sidebar";
+import withAuth from "@/components/firebase/authenticate";
 
-export default function DoctorSettingsPage() {
+function TransactionPage() {
   return (
     <div className="flex">
       {/* Sidebar */}
@@ -18,3 +19,5 @@ export default function DoctorSettingsPage() {
     </div>
   );
 }
+
+export default withAuth(TransactionPage, ["doctor", "patient"]);

@@ -12,11 +12,11 @@ DROP PROCEDURE IF EXISTS GetChatHistory;
 
 -- Get user type by email (For Authentication)
 DELIMITER //
-CREAT PROCEDURE GETUSER(IN p_UserEmail VARCHAR(255))
+CREATE PROCEDURE GETUSER(IN p_email VARCHAR(255))
 BEGIN
     Select u.user_type
     from User u
-    where u.email = p_UserEmail;
+    where u.email = p_email;
 END //
 DELIMITER ;
 

@@ -5,25 +5,27 @@ import { MessageCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import AppointmentCard from "@/components/card-components/doctorAppointmentCard";
+import withAuth from "@/components/firebase/authenticate";
 
-export default function PatientDashboardPage() {
+function PatientDashboardPage() {
   const [appointments, setAppointments] = useState({ upcoming: [], past: [] });
   const patientEmail = localStorage.getItem("email") || "";
 
   useEffect(() => {
     async function fetchAppointments() {
       try {
+        const email = localStorage.getItem("email");
         const response = await fetch(
-          `http://localhost:5001/patients/getAppointmentsForPatient/jane.smith@example.com`
+          `http://localhost:5001/patients/getAppointmentsForPatient/${email}`
         );
 
-        console.log("API Response Status:", response.status);
-        console.log(
-          "API Response Headers:",
-          response.headers.get("content-type")
-        );
+        // console.log("API Response Status:", response.status);
+        // console.log(
+        //   "API Response Headers:",
+        //   response.headers.get("content-type")
+        // );
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
 
         const results = data[0];
 
@@ -122,3 +124,5 @@ export default function PatientDashboardPage() {
     </div>
   );
 }
+
+export default withAuth(PatientDashboardPage, "patient");

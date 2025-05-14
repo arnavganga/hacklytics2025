@@ -1,8 +1,10 @@
+"use client";
 import PatientSettings from "../../../components/settings/PatientSettings";
 import React from "react";
 import Sidebar from "@/components/Sidebar";
+import withAuth from "@/components/firebase/authenticate";
 
-export default function PatientSettingsPage() {
+function PatientSettingsPage() {
   return (
     <div className="flex">
       {/* Sidebar */}
@@ -17,3 +19,5 @@ export default function PatientSettingsPage() {
     </div>
   );
 }
+
+export default withAuth(PatientSettingsPage, "patient");

@@ -36,8 +36,8 @@ CREATE PROCEDURE AddPatient(
     IN p_Email VARCHAR(255),
     IN p_first_name VARCHAR(100),
     IN p_last_name VARCHAR(100),
-    IN p_Age INT,
-    IN p_Gender ENUM('Male', 'Female', 'Non-binary', 'Prefer Not to Say', 'Other')
+    IN p_age INT,
+    IN p_gender ENUM('Male', 'Female', 'Non-binary', 'Prefer Not to Say', 'Other')
 )
 BEGIN
     IF p_Age <= 18 THEN

@@ -2,16 +2,18 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import PatientAppointmentCard from "@/components/card-components/patientAppointmentsCard";
+import withAuth from "@/components/firebase/authenticate";
 
-export default function DoctorDashboardPage() {
+function DoctorDashboardPage() {
   const [appointments, setAppointments] = useState({ upcoming: [], past: [] });
   const doctorEmail = localStorage.getItem("email") || "none";
 
   useEffect(() => {
     async function fetchAppointments() {
       try {
+        const email = localStorage.getItem("email");
         const response = await fetch(
-          `http://localhost:5001/doctors/getAppointmentsForDoctor/john.doe@example.com`
+          `http://localhost:5001/doctors/getAppointmentsForDoctor/${email}`
         );
 
         const data = await response.json();
@@ -115,3 +117,5 @@ export default function DoctorDashboardPage() {
     </div>
   );
 }
+
+export default withAuth(DoctorDashboardPage, "doctor");

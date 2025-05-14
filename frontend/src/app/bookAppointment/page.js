@@ -2,8 +2,9 @@
 import React, { useState } from "react";
 import DoctorSearch from "@/components/findDoctor/DoctorSearch";
 import Sidebar from "@/components/Sidebar";
+import withAuth from "@/components/firebase/authenticate";
 
-export default function DoctorSettingsPage() {
+function DoctorSettingsPage() {
   return (
     <div className="flex">
       {/* Main content area */}
@@ -18,3 +19,5 @@ export default function DoctorSettingsPage() {
     </div>
   );
 }
+
+export default withAuth(DoctorSettingsPage, "patient");

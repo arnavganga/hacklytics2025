@@ -3,12 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-const userRole = "patient";
+var userRole = localStorage.getItem("user-type");
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   const patientLinks = [
     { href: "/dashboard/patient", label: "Dashboard" },
@@ -26,6 +28,11 @@ export default function Sidebar() {
     userRole === "patient" ? "/settings/patient" : "/settings/doctor";
 
   const links = userRole === "patient" ? patientLinks : doctorLinks;
+
+  const handleLogout = () => {
+    localStorage.clear();
+    router.push("/");
+  };
 
   return (
     <div>
@@ -74,14 +81,14 @@ export default function Sidebar() {
               Settings
             </Link>
             {/* Static Logout Link */}
-            <Link
-              href="/"
-              className={`block p-2 rounded ${
+            <button
+              onClick={handleLogout}
+              className={`block w-full text-left p-2 rounded ${
                 pathname === "/logout" ? "bg-blue-700" : "hover:bg-blue-800"
               }`}
             >
               Logout
-            </Link>
+            </button>
           </div>
         </nav>
       </div>

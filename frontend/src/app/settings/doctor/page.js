@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import DoctorSettings from "../../../components/settings/DoctorSettings";
 import Sidebar from "@/components/Sidebar";
-import Calendar from "@/components/settings/DoctorCalendar";
+import withAuth from "@/components/firebase/authenticate";
 
-export default function DoctorSettingsPage() {
+function DoctorSettingsPage() {
   return (
     <div className="flex">
       {/* Sidebar */}
@@ -19,3 +19,5 @@ export default function DoctorSettingsPage() {
     </div>
   );
 }
+
+export default withAuth(DoctorSettingsPage, "doctor");

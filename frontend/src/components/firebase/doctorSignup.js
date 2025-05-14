@@ -33,24 +33,21 @@ const DoctorQuestions = () => {
 
     try {
       // Adds the user to our local database
-      const response = await fetch(
-        "http://localhost:5001/api/doctors/addDoctor",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            first_name: firstName,
-            last_name: lastName,
-            email: email,
-            user_type: "doctor",
-            specialization: specialization,
-            bio: bio,
-            age: age,
-          }),
-        }
-      );
+      const response = await fetch("http://localhost:5001/doctors/addDoctor", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+          user_type: "doctor",
+          specialization: specialization,
+          bio: bio,
+          age: age,
+        }),
+      });
 
       const data = await response.json();
 

@@ -2,7 +2,7 @@ const pool = require("../databases/db");
 
 // AddPatient
 const addPatient = async (req, res) => {
-  const { email, first_name, last_name, Age, Gender } = req.body;
+  const { email, first_name, last_name, age, gender } = req.body;
   const connection = await pool.getConnection();
 
   try {
@@ -10,8 +10,8 @@ const addPatient = async (req, res) => {
       email,
       first_name,
       last_name,
-      Age,
-      Gender,
+      age,
+      gender,
     ]);
     res.status(200).json({ message: "Patient added successfully", result });
   } catch (error) {
@@ -116,13 +116,11 @@ const getAllDoctors = async (req, res) => {
 
 // GetUserByEmail
 const GetUserByEmail = async (req, res) => {
-  const userEmail = req.params.email;
+  const email = req.params.id;
   const connection = await pool.getConnection();
 
   try {
-    const [rows] = await connection.query("CALL GetDoctorByEmail(?)", [
-      userEmail,
-    ]);
+    const [rows] = await connection.query("CALL GETUSER(?)", [email]);
     if (rows.length === 0) {
       res.status(404).json(null);
     } else {

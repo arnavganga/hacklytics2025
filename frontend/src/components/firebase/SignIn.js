@@ -14,8 +14,41 @@ const SignIn = () => {
     e.preventDefault();
     try {
       const res = await signInWithEmailAndPassword(email, password);
-      console.log({ res });
-      router.push("/");
+      // console.log({ res });
+
+      if (res && res.user) {
+        const response = await fetch(
+          `http://localhost:5001/patients/getUser/${email}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to add patient");
+        }
+        // console.log(data);
+
+        // Save email and user-type into local storage
+        localStorage.setItem("email", email);
+        localStorage.setItem("user-type", data[0].user_type);
+
+        console.log(data[0].user_type);
+
+        if (data[0].user_type == "patient") {
+          router.push("/dashboard/patient");
+        } else if (data[0].user_type == "doctor") {
+          router.push("/dashboard/doctor");
+        } else {
+          router.push("/login");
+        }
+      } else {
+        router.push("/login");
+      }
     } catch (error) {
       console.error("Error logging in:", error);
       alert("Error logging in: " + error.message);
